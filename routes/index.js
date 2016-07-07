@@ -17,6 +17,14 @@
 		})
 	  
 	});
+	this.router.get('/terms', function(req, res, next) {
+
+		console.log('index was requested  ');		
+		myRouter.prototype.termsPreRender(req,_app,function(){
+				res.render('terms');
+		})
+	  
+	});
 
 	this.router.get('/blog', function(req, res, next) {
 
@@ -171,7 +179,8 @@ myRouter.prototype.indexPreRender=function(req,app,callback){
 			app.set('layout','layouts/main_page_layout');
 			callback();
 		}
-myRouter.prototype.searchresultPreRender_registered=function(req,app,callback){
+
+myRouter.prototype.termsPreRender=function(req,app,callback){
 			app.set('layout','layouts/all_pages_layout');
 			callback();
 		}
@@ -207,6 +216,10 @@ myRouter.prototype.managerInnerPreRender=function(req,app,callback){
 //______________________________REGISTERED______________________________________________
 myRouter.prototype.indexPreRender_registered=function(req,app,callback){
 			app.set('layout','layouts/main_page_layout_registered');
+			callback();
+		}
+myRouter.prototype.searchresultPreRender_registered=function(req,app,callback){
+			app.set('layout','layouts/all_pages_layout');
 			callback();
 		}
 
