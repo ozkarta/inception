@@ -1,10 +1,10 @@
 @font-face {
     font-family: brow;
-    src: url(../fonts/Browallia-New.ttf);
+    src: url(/fonts/Browallia-New.ttf);
 }
 @font-face {
     font-family: century;
-    src: url(../fonts/Century-Gothic.ttf);
+    src: url(/fonts/Century-Gothic.ttf);
 }
 
 /*html{
