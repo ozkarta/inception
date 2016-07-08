@@ -26,6 +26,15 @@
 	  
 	});
 
+	this.router.get('/faq', function(req, res, next) {
+
+		console.log('index was requested  ');		
+		myRouter.prototype.faqPreRender(req,_app,function(){
+				res.render('faq');
+		})
+	  
+	});
+
 	this.router.get('/blog', function(req, res, next) {
 
 		console.log('index was requested  ');		
@@ -184,7 +193,10 @@ myRouter.prototype.termsPreRender=function(req,app,callback){
 			app.set('layout','layouts/all_pages_layout');
 			callback();
 		}
-
+myRouter.prototype.faqPreRender=function(req,app,callback){
+			app.set('layout','layouts/all_pages_layout');
+			callback();
+		}
 
 
 myRouter.prototype.blogPreRender=function(req,app,callback){

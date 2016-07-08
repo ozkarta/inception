@@ -1901,3 +1901,71 @@ footer .list-inline ul {
 
 
 /*---------------------------------------------about us css end----------------------*/
+
+.terms {
+   line-height: 20px;
+}
+/*.terms-title{
+  background-color: #d3d3d3;
+}*/
+
+.terms p {
+   font-size: 15px;
+   display: inline-block;
+
+}
+
+.terms h2 {
+   text-align: center;
+   font-weight: bolder;
+   padding: 20px 0;
+}
+
+.terms strong {
+   font-size: 16px;
+   font-weight: 900;
+}
+
+
+.terms h1 {
+   margin: 20px 0 50px 0;
+   background-color: blue;
+   padding: 20px 0;
+   text-align: center;
+}
+
+.terms li {
+   list-style-type: decimal;
+   float: left;
+}
+
+.terms span {
+   padding: 0 5px;
+   font-size: 15px;
+}
+
+.terms .violate {
+   display: block;
+   width: 100%;
+}
+
+
+.faq {
+    margin-top: -40px;
+}
+
+.faq h1 {
+    padding: 20px;
+    background-color: #ebebeb;
+    text-align: center;
+}
+
+.faq li {
+    list-style-type: decimal;
+    margin: 20px 0;
+    font-size: 18px;
+}
+
+.answer {
+    margin-top: 10px;
+}
