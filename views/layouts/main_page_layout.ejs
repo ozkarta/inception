@@ -35,16 +35,56 @@
                                     <li><a href="toprank">Top Rank</a> </li>
                                     <li><a href="blog">Blog</a> </li>
                                     <li><a href="about">About Us</a> </li>
-                                    <li>
-                                        <button id='sign-up' type="button" class="btn btn-md sign-in">Sign In/Sign Up
-                                        </button>
-                                    </li>                                   
+                                             
+                                    <%
+                                    console.log('________________________________');
+                                    console.dir(locals);
+                                        if(locals.user!==undefined){
+                                            if(locals.user.facebook!==undefined  || locals.user.google!==undefined  || locals.user.lonkedin!==undefined  ){
+                                                %>
+                                                     <li>
+                                                                <form action="addmanager">
+                                                                    <button id='add-manager' type="submit" class="btn btn-md sign-in">Add Manager
+                                                                    </button>
+                                                                </form>
+
+                                                            </li>
+                                                            <li>
+                                                                <form action="/logout">
+                                                                    <button id='logout' type="submit" class="btn btn-md sign-in">
+                                                                        Logout
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                <%
+                                            }else{
+                                                %>
+                                                    <li>
+                                                          <button id='sign-up' type="button" class="btn btn-md sign-in">Sign In/Sign Up
+                                                          </button>
+                                                      </li>
+                                                <%
+                                            }
+                                        }else{
+                                            %>
+                                                <li>
+                                                      <button id='sign-up' type="button" class="btn btn-md sign-in">Sign In/Sign Up
+                                                      </button>
+                                                  </li>
+                                            <%
+                                        }
+
+                                    %>                       
                                 </ul>
                             </div>
                         </div>
                     </nav>
                 </div>
             </header>
+
+
+
+
             <div id="abc">
                 <div id="popupContact">
                     <div class="sign-up-modal">
@@ -53,8 +93,13 @@
                                 <h3>Signin/Login on UncoveredBoss With:</h3>
                                 <span id="close">&#10006;</span>
                             </div>
-                            <img src="./images/linkedin-signin.png" alt="">
-                            <img src="./images/facebook-signin.png" alt="">
+                            
+                            <a href="linkedin">
+                                <img src="./images/linkedin-signin.png" alt="">
+                             </a> 
+                             <a href="facebook">
+                                <img src="./images/facebook-signin.png" alt="">
+                             </a>    
                             <img src="./images/google-signin.png" alt="">
                             <div class="sign-in-warning">
                                 <img src="./images/warning.svg" alt="">
@@ -66,6 +111,8 @@
                     </div>
                 </div>
             </div>
+
+
            
 <%-body%>
 

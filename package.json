@@ -13,11 +13,19 @@
     "ejs": "~2.3.3",
     "express-ejs-layouts":"~1.1.0",
     "express-partials":"~0.3.0",
+    "express-session":"1.14.0",
     "async":"~1.5.0",
     "mongodb": "2.1.18",
     "assert":"1.4.1",
     "morgan": "~1.6.1",
     "connect-redis":"3.1.0",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+
+    "passport": "~0.2.0",
+    "passport-local": "~1.0.0",
+    "mongoose":"3.8.12",
+    "passport-facebook":"2.1.1",
+    "passport-linkedin":"1.0.0",
+    "passport-google-oauth":"1.0.0"
   }
 }
