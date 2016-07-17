@@ -1,16 +1,17 @@
 var mongoose=require('mongoose');
 
 var managerMain=mongoose.model('manager',{
-	fullName	:String,
+	fullName		:String,
+	managerTitle	:String,  //  addmanager
+	department		:String,  //
 	currentCompany 	:String,
-	department	:String,
-	email		:String,
-	linkedinURL	:String,
+	email			:String,
+	linkedinURL		:String,
 
 
 	imageURL	:String,
-	fullTitle	:String,
-	workHistory	:[workHistory],
+	
+	//workHistory	:[workHistory],
 	rating 		:[rating]
 
 });
