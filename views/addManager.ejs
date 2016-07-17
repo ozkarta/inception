@@ -11,23 +11,35 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Manager Title</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Manager Department</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Current Company</label>
+                            <input type="text" class="form-control" id="addManagerAutoComplete_company" placeholder="" onkeyup="companyAutoComplete(this,'list1')">
+                           <div id="resultSection1">
+                                <ol id="list1" class="col-xs-12">
+                                </ol>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Manager Email Address</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Manager Linkedin Account</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Previous Work</label>
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <input type="text" class="form-control" id="addManagerAutoComplete_previous_company" placeholder="" onkeyup="companyAutoComplete(this,'list2')">
+                           <div id="resultSection2">
+                                <ol id="list2" class="col-xs-12">
+                                </ol>
+                            </div>
                         </div>
 
 
@@ -36,3 +48,65 @@
                 </div>
             </section>
         </div>
+
+        <script>
+            function companyAutoComplete(ev,listid){
+                      //  CLEARS   RESULT DIV
+                    var childrenLength=document.getElementById(listid).children.length;
+                    //console.log(childrenLength);
+                    for(i=childrenLength-1;i>=0;i--){
+                      document.getElementById(listid).removeChild(document.getElementById(listid).children[i]);
+                    }
+
+                    if(ev.value!==''){
+                        var jsonToPost='{"searchQ":"'+ev.value+'"}'
+                        //alert(jsonToPost);
+                        xhr = new XMLHttpRequest();
+                            //var url = document.location.origin+'/find';
+                            var url='findCompany';
+                            //alert(url);
+                            xhr.open("POST", url, true);
+
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.onreadystatechange = function () { 
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                    responseJSON = JSON.parse(xhr.responseText);  
+                                       console.dir(responseJSON);   
+                                       var counter=0;   
+                                       responseJSON.forEach(function(item){
+                                        counter=counter+1;
+                                          if(counter<11){
+                                              var li=document.createElement('LI');
+                                              var span=document.createElement('SPAN');
+                                              span.setAttribute("id", "span"+counter);
+                                              span.onclick=function(){
+                                                ev.value=span.innerHTML;
+                                                var childrenLength=document.getElementById(listid).children.length;
+                                                //console.log(childrenLength);
+                                                for(i=childrenLength-1;i>=0;i--){
+                                                  document.getElementById(listid).removeChild(document.getElementById(listid).children[i]);
+                                                }
+                                              }
+                                              span.appendChild(document.createTextNode(item.name));
+                                              //var p=document.createElement('P');
+                                             // p.appendChild(document.createTextNode(item.translated));
+
+                                              //p.innerHTML=item.translated;
+                                              
+                                              li.appendChild(span);
+                                              //li.appendChild(p);
+
+
+
+                                              document.getElementById(listid).appendChild(li);
+                                              }else{
+                                                return null;
+                                              }
+                                       })    
+                                }
+                            }
+                            xhr.send(jsonToPost);
+                    
+                    }
+            }
+        </script>

@@ -1,23 +1,6 @@
 var mongoose=require('mongoose');
 
-var managerMain=mongoose.model('manager',{
-	fullName		:String,
-	managerTitle	:String,  //  addmanager
-	department		:String,  //
-	currentCompany 	:String,
-	email			:String,
-	linkedinURL		:String,
-
-
-	imageURL	:String,
-	
-	//workHistory	:[workHistory],
-	rating 		:[rating]
-
-});
-
-
-var managerRating=mongoose.model({
+var rating=mongoose.model('rating',{
 		userID			:String,  //  Person  who  voted
 
 		rateDate        :String,
@@ -32,7 +15,29 @@ var managerRating=mongoose.model({
 		cons			:String,
 	});
 
-var workHistory=mongoose.model({
+module.exports=mongoose.model('manager',{
+	userID			:String,
+	fullName		:String,
+	//managerTitle	:String,  //  addmanager
+	possition		:String,
+	department		:String,  //
+	currentCompany 	:String,
+	email			:String,
+	workMail		:String,
+	linkedinURL		:String,
+
+
+	imageURL	:String,
+	
+	//workHistory	:[workHistory],
+	rating 		:[rating]
+
+});
+
+
+
+
+var workHistory=mongoose.model('workHistory',{
 	startDate	:String,
 	endDate		:String,
 	companyName	:String,
@@ -40,6 +45,6 @@ var workHistory=mongoose.model({
 	department	:String
 })
 
-module.exports.managerMain=managerMain;
-module.exports.managerPersonal=managerPersonal;
-module.exports.workHistory=workHistory;
+//module.exports=managerMain;
+//module.exports.managerPersonal=managerPersonal;
+//module.exports.workHistory=workHistory;

@@ -6,12 +6,21 @@
                     <h3>Select Category Below and Search For Managers</h3>
                 </div>
                 <div class="container landing-area-select col-sm-10 col-sm-push-2 btn-group center-block">
+
+
                     <button type="button" class="btn btn-default ">Manager</button>
                     <button type="button" class="btn btn-default">Company</button>
-                    <input type="search" name="name" class="search-input input-md" placeholder="e.g. Richard Branson or Virgin Atlantic">
+
+
+                    <input type="search" name="name" class="search-input input-md" placeholder="e.g. Richard Branson or Virgin Atlantic" onkeyup="mainSearchAutoComplete(this)">
 
                   
                     <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
+
+                    <div id="resultSection1" style="background-color:white">
+                                <ol id="listMain" class="col-xs-12">
+                                </ol>
+                    </div>
                 </div>
                
             </div>
@@ -22,3 +31,61 @@
             </div>
            
         </section>
+
+         <script>
+            function mainSearchAutoComplete(ev){
+                      //  CLEARS   RESULT DIV
+                    var childrenLength=document.getElementById('listMain').children.length;
+                    //console.log(childrenLength);
+                    for(i=childrenLength-1;i>=0;i--){
+                      document.getElementById('listMain').removeChild(document.getElementById('listMain').children[i]);
+                    }
+
+                    if(ev.value!==''){
+                        var jsonToPost='{"searchQ":"'+ev.value+'","searchTyle":"manager"}'
+                        //alert(jsonToPost);
+                        xhr = new XMLHttpRequest();
+                            //var url = document.location.origin+'/find';
+                            var url='findManagers';
+                            //alert(url);
+                            xhr.open("POST", url, true);
+
+                            xhr.setRequestHeader("Content-type", "application/json");
+                            xhr.onreadystatechange = function () { 
+                                if (xhr.readyState == 4 && xhr.status == 200) {
+                                    responseJSON = JSON.parse(xhr.responseText);  
+                                       console.dir(responseJSON);   
+                                       var counter=0;   
+                                       responseJSON.forEach(function(item){
+                                        counter=counter+1;
+                                          if(counter<11){
+                                              var li=document.createElement('LI');
+                                              var span=document.createElement('SPAN');
+                                              var a=document.createElement('a');
+                                              a.setAttribute('href','toprank?'+item.userID);
+                                              a.innerHTML=item.fullName+', '+item.possition +' at ' + item.currentCompany +' ('+item.department+')';
+                                              span.appendChild(a);
+                                              span.setAttribute("id", "span"+counter);
+                                              
+                                              //var p=document.createElement('P');
+                                             // p.appendChild(document.createTextNode(item.translated));
+
+                                              //p.innerHTML=item.translated;
+                                              
+                                              li.appendChild(span);
+                                              //li.appendChild(p);
+
+
+
+                                              document.getElementById('listMain').appendChild(li);
+                                              }else{
+                                                return null;
+                                              }
+                                       })    
+                                }
+                            }
+                            xhr.send(jsonToPost);
+                    
+                    }
+            }
+        </script>

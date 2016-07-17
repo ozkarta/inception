@@ -104,3 +104,7 @@ window.onload = function(e) {
     });
     /*SignIn/SignUp Pop-up ---- End*/
 };
+
+function companyAutoComplete(item){
+    alert("autocompleted");
+}

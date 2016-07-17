@@ -1,4 +1,7 @@
    myRouter=function(_app,_passport){
+   	var dbInit=require('../models/initDataBase.js')();
+   	var company=require('../models/companies.js');
+   	var manager=require('../models/manager.js');
 
 	this.app=_app;
 	this.passport=_passport;
@@ -88,7 +91,7 @@
 			  },
 			  function(token, tokenSecret, profile, done) {
 			  	console.log('linkedin  response is ____________________________________________________________________________________________')
-			  	console.dir(profile);
+			  	//console.dir(profile);
 			  	 process.nextTick(function() {
 							     
 							      // find the user in the database based on their facebook id
@@ -317,7 +320,7 @@
 
 	
 
-	this.router.get('/addmanager',isLoggedIn, function(req, res, next) {
+	this.router.get('/addmanager', function(req, res, next) {
 
 		console.log('add manager   was requested  ');		
 		myRouter.prototype.addManagerPreRender(req,_app,function(){
@@ -327,6 +330,34 @@
 
 		
 	  
+	});
+
+	//     For autofill  on   addManager page
+	this.router.post('/findCompany',function(req,res,nect){
+		var it=req.body.searchQ;
+		//console.log('company is _+__)__)_)_')
+		//console.dir(company);
+		company.find({name:new RegExp('^'+it,'i')},'name',{'sort': {'name': '-1'}, 'limit': '10'},function(err,response){
+			if(err){
+				//console.dir(err);
+			}
+			//console.dir(response);
+			res.send(response);
+		})
+	});
+
+	//     For autofill  on   addManager page
+	this.router.post('/findManagers',function(req,res,nect){
+		var it=req.body.searchQ;
+		//console.log('company is _+__)__)_)_')
+		//console.dir(company);
+		manager.find({fullName:new RegExp('^'+it,'i')},'userID fullName possition department currentCompany ',{'sort': {'fullName': '-1'}, 'limit': '10'},function(err,response){
+			if(err){
+				//console.dir(err);
+			}
+			//console.dir(response);
+			res.send(response);
+		})
 	});
 /*
 
