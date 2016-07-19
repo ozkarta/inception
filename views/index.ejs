@@ -62,7 +62,7 @@
                                               var li=document.createElement('LI');
                                               var span=document.createElement('SPAN');
                                               var a=document.createElement('a');
-                                              a.setAttribute('href','toprank?'+item.userID);
+                                              a.setAttribute('href','manager?id='+item.managerID);
                                               a.innerHTML=item.fullName+', '+item.possition +' at ' + item.currentCompany +' ('+item.department+')';
                                               span.appendChild(a);
                                               span.setAttribute("id", "span"+counter);

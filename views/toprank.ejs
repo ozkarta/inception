@@ -41,19 +41,57 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td><a href="managerinnerpage">Richard Brunson</a></td>
-                                <td>Liberty Mutual Insurance Group</td>
+                            
 
-                                <td>5.0</td>
-                                <td>5.0</td>
-                                <td>5.0</td>
-                                <td>5.0</td>
-                                <td>5.0</td>
-                                <td>5</td>
-                            </tr>
-                            <tr>
+
+                            <%  if(locals.managers!==undefined){
+
+                                   
+                                    var autTotal=0;
+                                    var expTotal=0;
+                                    var mentTotal=0;
+                                    var rewTotal=0;
+                                    var recTotal=0;
+
+                                    var counter=0;
+
+                                  
+                                    for(i=0;i<locals.managers.length;i++){
+                                        for(k=0;k<locals.managers[i].rating.length;k++){
+                                                autTotal= autTotal+parseInt(locals.managers[i].rating[k].autonomy);
+                                                expTotal= expTotal+parseInt(locals.managers[i].rating[k].expectation);
+                                                mentTotal= mentTotal+parseInt(locals.managers[i].rating[k].mentorship);
+                                                rewTotal= rewTotal+parseInt(locals.managers[i].rating[k].reward);
+                                                recTotal= recTotal+parseInt(locals.managers[i].rating[k].recognition);
+
+                                                counter=counter+1;
+                                                }
+                                            %>
+                                                 <tr>
+                                                    <td><%- i+1%></td>
+                                                    <td><a href="manager?id=<%-locals.managers[i].managerID%>"><%- locals.managers[i].fullName%></a></td>
+                                                    <td><%-locals.managers[i].currentCompany%></td>
+
+                                                    <td><%-(recTotal/counter).toFixed(1)%></td>
+                                                    <td><%-(autTotal/counter).toFixed(1)%></td>
+                                                    <td><%-(expTotal/counter).toFixed(1)%></td>                                                
+                                                    <td><%-(mentTotal/counter).toFixed(1)%></td>
+                                                    <td><%-(rewTotal/counter).toFixed(1)%></td>
+                                                    <td><%-((autTotal/counter+expTotal/counter+mentTotal/counter+rewTotal/counter+recTotal/counter)/5).toFixed(1)%></td>
+                                                </tr>
+                                            <% 
+                                        
+                                    }
+
+                                       
+                                    
+
+                            } 
+
+                            %>
+
+                           
+                            <!-- <tr>
                                 <td>2</td>
                                 <td><a >Plator Ulqinaku</a></td>
                                 <td>PricewaterhouseCoopers</td>
@@ -175,7 +213,7 @@
                                 <td>1.0</td>
                                 <td>1.0</td>
                                 <td>1</td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                     <div class="top-rank-bottom">

@@ -1,7 +1,7 @@
 window.onload = function(e) {
         //console.dir(e);
         console.log(e.target.location.pathname)
-        if(e.target.location.pathname==='/managerinnerpage' || e.target.location.pathname==='/user/managerinnerpage'){
+        if(e.target.location.pathname==='/manager' || e.target.location.pathname==='/user/managerinnerpage'){
             console.log('mushaobs');
             var bar = new ProgressBar.Circle(independence, {
                 color: '#aaa',
@@ -39,7 +39,8 @@ window.onload = function(e) {
             bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
             bar.text.style.fontSize = '2rem';
 
-            bar.animate(0.6); // Number from 0.0 to 1.0
+            console.log(document.getElementById('autonomy_variable').value);
+            bar.animate(document.getElementById('autonomy_variable').value); // Number from 0.0 to 1.0
 
 
 
@@ -79,7 +80,7 @@ window.onload = function(e) {
             bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
             bar.text.style.fontSize = '2rem';
 
-            bar.animate(0.85); // Number from 0.0 to 1.0
+           bar.animate(document.getElementById('expectation_variable').value); // Number from 0.0 to 1.0
 
 
 
@@ -119,7 +120,7 @@ window.onload = function(e) {
             bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
             bar.text.style.fontSize = '2rem';
 
-            bar.animate(1); // Number from 0.0 to 1.0
+            bar.animate(document.getElementById('mentorship_variable').value); 
 
 
             var bar = new ProgressBar.Circle(reward, {
@@ -158,7 +159,7 @@ window.onload = function(e) {
             bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
             bar.text.style.fontSize = '2rem';
 
-            bar.animate(0.2); // Number from 0.0 to 1.0
+            bar.animate(document.getElementById('reward_variable').value); 
 
 
             var bar = new ProgressBar.Circle(balance, {
@@ -197,7 +198,7 @@ window.onload = function(e) {
             bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
             bar.text.style.fontSize = '2rem';
 
-            bar.animate(0.4); // Number from 0.0 to 1.0
+            bar.animate(document.getElementById('recognition_variable').value); 
 
 
             var bar = new ProgressBar.Circle(overall, {
@@ -236,7 +237,7 @@ window.onload = function(e) {
             bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
             bar.text.style.fontSize = '2rem';
 
-            bar.animate(0.6); // Number from 0.0 to 1.0
+           bar.animate(document.getElementById('overall_variable').value); 
         }
 
         //_____________________________BLOG_____________________________________

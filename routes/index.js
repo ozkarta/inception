@@ -1,7 +1,10 @@
-   myRouter=function(_app,_passport){
-   	var dbInit=require('../models/initDataBase.js')();
+   var dbInit=require('../models/initDataBase.js')();
    	var company=require('../models/companies.js');
    	var manager=require('../models/manager.js');
+
+   	
+   myRouter=function(_app,_passport){
+   	
 
 	this.app=_app;
 	this.passport=_passport;
@@ -266,8 +269,8 @@
 	this.router.get('/toprank', function(req, res, next) {
 
 		console.log('index was requested  ');		
-		myRouter.prototype.topRankPreRender(req,_app,function(){
-				res.render('toprank',{locals:{'user':req.user}});
+		myRouter.prototype.topRankPreRender(req,_app,function(managerArray){
+				res.render('toprank',{locals:{'user':req.user,'managers':managerArray}});
 		})
 
 
@@ -298,12 +301,14 @@
 	  
 	});
 	
-	this.router.get('/managerinnerpage', function(req, res, next) {
+	this.router.get('/manager', function(req, res, next) {
 
-		console.log('manager InnerPage  was requested  ');		
-		myRouter.prototype.managerInnerPreRender(req,_app,function(){
+
+
+		
+		myRouter.prototype.managerInnerPreRender(req,_app,function(result){
 				
-				res.render('managerInnerPage',{locals:{'user':req.user}});
+				res.render('managerInnerPage',{locals:{'user':req.user,'manager':result}});
 		})
 
 		
@@ -351,7 +356,7 @@
 		var it=req.body.searchQ;
 		//console.log('company is _+__)__)_)_')
 		//console.dir(company);
-		manager.find({fullName:new RegExp('^'+it,'i')},'userID fullName possition department currentCompany ',{'sort': {'fullName': '-1'}, 'limit': '10'},function(err,response){
+		manager.find({fullName:new RegExp('^'+it,'i')},'managerID fullName possition department currentCompany ',{'sort': {'fullName': '-1'}, 'limit': '10'},function(err,response){
 			if(err){
 				//console.dir(err);
 			}
@@ -489,7 +494,17 @@ myRouter.prototype.blogPreRender=function(req,app,callback){
 
 myRouter.prototype.topRankPreRender=function(req,app,callback){
 			app.set('layout','layouts/all_pages_layout');
-			callback();
+
+			manager.find({},function(err,managerRes){
+				if(err){
+					callback(undefined)
+				}else{
+					callback(managerRes);
+				}
+			})
+
+
+			//callback();
 		}
 
 
@@ -505,7 +520,18 @@ myRouter.prototype.blogInnerPreRender=function(req,app,callback){
 
 myRouter.prototype.managerInnerPreRender=function(req,app,callback){
 	app.set('layout','layouts/all_pages_layout');
-	callback();
+
+	managerID=req.query.id;
+	manager.findOne({'managerID':managerID},function(err,managerResult){
+		if(err){
+			console.log(err);
+		}
+		callback(managerResult);
+	})
+
+
+
+	//callback();
 }
 
 myRouter.prototype.addManagerPreRender=function(req,app,callback){

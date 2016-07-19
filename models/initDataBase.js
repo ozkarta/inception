@@ -1,10 +1,11 @@
 var company=require('../models/companies.js');
 var manager=require('../models/manager.js');
-
+var ratings=require('../models/ratings.js');
 module.exports=function(){
 	
 	addCompanies();
 	addManagers();
+	addRatingsManual();
 }
 
 function addCompany(id,name){
@@ -37,7 +38,7 @@ function addManager(companyID,possition,fullName,email,linkedin,department,workm
 		}else{
 			if(!managerResult){
 				var newManager=new manager();
-				newManager.userID=guid();
+				newManager.managerID=guid();
 				newManager.fullName=fullName;
 				newManager.possition=possition;
 				newManager.department=department;
@@ -80,6 +81,30 @@ function addManager(companyID,possition,fullName,email,linkedin,department,workm
 		}
 	})
 }
+function addRating(managerID,userID,Idontknow,recognition,autonomy,expectation,mentorship,reward,pros,rateDate,cons){
+		manager.findOne({'fullName':'Zoya Ivanova'},function(err,zoia){
+			var r=new ratings();
+			r.recognition=recognition;
+			r.autonomy=autonomy;
+			r.expectation=expectation;
+			r.mentorship=mentorship;
+			r.reward=reward;
+			r.pros=pros;
+			r.cons=cons;
+			r.rateDate=rateDate;
+			for(i=0;i<zoia.rating.length;i++){
+				if(zoia.rating[i].pros==pros){
+					return undefined;
+				}
+			}
+			zoia.rating.push(r);
+			zoia.save(function(err){
+				if(!err)
+				console.log('zoia rating was added');
+			})
+		})
+}
+
 
 function addCompanies(){
 	addCompany(1,'Omnicom Group')
@@ -6439,6 +6464,30 @@ function addManagers(){
 	addManager('215','VP' , 'Andrea' , 'andre1234@gmail.com' , '','Finance','andreasagarrido1987@gmail.com')
 
 }
+
+
+function addRatingsManual(){
+	addRating('','','0','3','1','1','3','1','Zoya is smart and a hard worker herself and a good role model in those regards','2015-05-28','Zoya is not a caring person or a good advisor/mentor.  I have seen her ruthlessly work people 100 hour weeks without empathy.  As one would expect from this behavior she does not invest herself in her advisees and does not advocate for them.  It was quite a painful experience to work for her and I know I\'m not alone in thinking this.')
+	addRating('','','0','5','5','5','5','5','Michael is a great manager, he truly cares about the development of the people working around him and the people he mentors. He is a leader to look up to. ','2015-06-07','N/A')
+	addRating('','','0','3','1','2','4','4','Stacey is a wealth of knowledge when it comes to the timeshare industry. She is good at empowering her team members to take charge and lead projects on their own. She is one of the better managers providing her employees with a healthy work/family life experience. She never forgets to praise employees for a job well done.','2015-06-24','Stacey oftenly has the bad habit of micro managing employees and at times can be unclear in setting expectations which can lead to delays in project delivery and unrest amongst the group.')
+	addRating('','','0','5','5','5','5','5','Possesses great technical depth of audit and risk management within the banking industry, and is very keen on sharing his knowledge with others.','2015-07-06','N/A')
+	addRating('','','0','3','2','3','2','1','Supports creative resolutionResponsive to removing challenges Provides recognition for accomplishments','2015-07-08','Needs more focus on professional development')
+	addRating('','','0','0','0','0','0','0','','2015-07-10','')
+	addRating('','','0','5','5','5','5','5','Dan is my former boss so I can say first-hand that he is an exceptional manager.His own dedication and enthusiasm for the work our team was doing inspired myself and the rest of his team to push ourselves and hold our own work to the same standard. On top of this, Dan built strong personal relationships with each member of a diverse team and worked to customize our roles to fit our interests, ','2015-07-10','None')
+	addRating('','','0','1','1','1','1','1','Brings a lot of fatty food if you are into that. ','2015-07-14','Terrible leader. Does not mentor you on your development. Does not recognize your achievements and does not take responsibility for her decisions. ')
+	addRating('','','0','4','3','3','2','3','N/A','2015-07-14','N/A')
+	addRating('','','0','4','2','2','3','3','N/A','2015-07-14','N/A')
+	addRating('','','0','5','2','4','5','5','Terry is a great leader. She is very knowledgeable and knows her numbers very well.','2015-07-27','There are occasions she is not very clear with her instructions. ')
+	addRating('','','0','5','5','1','2','2','Sabrina is a very intelligent woman. She knows her accounting very well and knows the company inside out. ','2015-07-14','She is not very good at mentoring or caring for anyone. ')
+	addRating('','','0','5','3','2','4','4','Paul gives you a lot of room to work on your own and think of ways to do everything better. He definitely recognizes when good has been done.','2015-07-27','He needs to work on developing employees a bit more and providing clear direction to what is expected at times. ')
+	addRating('','','0','5','5','5','5','5','Great mentor, and deep knowledge of market risk','2015-07-17','N/A')
+
+}
+function addRatingsTestVersion(){
+
+}
+
+
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
