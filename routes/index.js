@@ -270,7 +270,15 @@
 
 		console.log('index was requested  ');		
 		myRouter.prototype.topRankPreRender(req,_app,function(managerArray){
-				res.render('toprank',{locals:{'user':req.user,'managers':managerArray}});
+				var page=1;
+				if(req.query.page!==undefined){
+					page=req.query.page;
+				}
+				var listLength=10;
+				if(req.query.optradio!==undefined){
+					listLength=req.query.optradio;
+				}
+				res.render('toprank',{locals:{'user':req.user,'managers':managerArray,'page':page,'listLength':listLength}});
 		})
 
 

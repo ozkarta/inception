@@ -1,3 +1,22 @@
+ <%
+ var listLength=locals.listLength;
+
+ var is10='',is25='',is50='',is100='';
+ if(listLength==10){
+    is10='checked';
+ }
+  if(listLength==25){
+    is25='checked';
+ }
+  if(listLength==50){
+    is50='checked';
+ }
+  if(listLength==100){
+    is10='checked';
+ }
+  
+ %>
+
  <div class="top-rank">
             <section class="top-rank-title col-xs-12">
                 <h1>Top Ranked Managers From Over 1000+ Companies</h1>
@@ -11,20 +30,22 @@
                                 <span class="glyphicon glyphicon-search"></span>&nbsp;
                             </button>
                         </div>
-                        <div class="top-rank-entries">
-                            <label class="radio-inline">
-                                <input type="radio" name="optradio">10 Entries
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optradio">25 Entries
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optradio">50 Entries
-                            </label>
-                            <label class="radio-inline">
-                                <input type="radio" name="optradio">100 Entries
-                            </label>
-                        </div>
+                        <form action="/toprank" method="GET" id="numForm"> 
+                            <div class="top-rank-entries">
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio" <%=is10%> value="10" onchange="submitMyForm(this)">10 Entries
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio" <%=is25%> value="25" onchange="submitMyForm(this)">25 Entries
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio" <%=is50%> value="50" onchange="submitMyForm(this)">50 Entries
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="optradio" <%=is100%> value="100" onchange="submitMyForm(this)">100 Entries
+                                </label>
+                            </div>
+                        </form>
                     </div>
                     <table class="table">
                         <thead>
@@ -55,8 +76,19 @@
 
                                     var counter=0;
 
-                                  
-                                    for(i=0;i<locals.managers.length;i++){
+                                    var beginI=0;
+
+                                    console.log('page is '+ locals.page);
+                                    if(locals.page!==undefined){
+                                        beginI=(parseInt(locals.page)-1)*listLength
+                                    }
+                                    
+                                    var endI=beginI+listLength;
+                                    if(locals.managers.length<endI){
+                                        endI=locals.managers.length;
+                                    }
+                                    
+                                    for(i=beginI;i<endI;i++){
                                         for(k=0;k<locals.managers[i].rating.length;k++){
                                                 autTotal= autTotal+parseInt(locals.managers[i].rating[k].autonomy);
                                                 expTotal= expTotal+parseInt(locals.managers[i].rating[k].expectation);
@@ -66,18 +98,45 @@
 
                                                 counter=counter+1;
                                                 }
+                                            var rec=(recTotal/counter).toFixed(1);
+                                            var aut=(autTotal/counter).toFixed(1)
+                                            var exp=(expTotal/counter).toFixed(1)
+                                            var ment=(mentTotal/counter).toFixed(1)
+                                            var rew=(rewTotal/counter).toFixed(1)
+                                            var tot=((autTotal/counter+expTotal/counter+mentTotal/counter+rewTotal/counter+recTotal/counter)/5).toFixed(1)
+
+                                            if(isNaN(rec)){
+                                                rec='N/A'
+                                            }
+                                            if(isNaN(aut)){
+                                                aut='N/A'
+                                            }
+                                            if(isNaN(exp)){
+                                                exp='N/A'
+                                            }
+                                            if(isNaN(ment)){
+                                                ment='N/A'
+                                            }
+                                            if(isNaN(rew)){
+                                                rew='N/A'
+                                            }
+                                            if(isNaN(tot)){
+                                                tot='N/A'
+                                            }
+
+
                                             %>
                                                  <tr>
                                                     <td><%- i+1%></td>
                                                     <td><a href="manager?id=<%-locals.managers[i].managerID%>"><%- locals.managers[i].fullName%></a></td>
                                                     <td><%-locals.managers[i].currentCompany%></td>
 
-                                                    <td><%-(recTotal/counter).toFixed(1)%></td>
-                                                    <td><%-(autTotal/counter).toFixed(1)%></td>
-                                                    <td><%-(expTotal/counter).toFixed(1)%></td>                                                
-                                                    <td><%-(mentTotal/counter).toFixed(1)%></td>
-                                                    <td><%-(rewTotal/counter).toFixed(1)%></td>
-                                                    <td><%-((autTotal/counter+expTotal/counter+mentTotal/counter+rewTotal/counter+recTotal/counter)/5).toFixed(1)%></td>
+                                                    <td><%-rec%></td>
+                                                    <td><%-aut%></td>
+                                                    <td><%-exp%></td>                                                
+                                                    <td><%-ment%></td>
+                                                    <td><%-rew%></td>
+                                                    <td><%-tot%></td>
                                                 </tr>
                                             <% 
                                         
@@ -223,11 +282,33 @@
                         <div class="top-rank-pager">
                             <ul class="pagination">
                                 <li class="disabled"><a href="#">&laquo;</a></li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
+                                
+
+                                <%  
+                                    if(locals.managers!==undefined){
+                                    
+                                    console.log(Math.ceil(locals.managers.length/listLength));
+                                        for(i=0;i<Math.ceil(locals.managers.length/listLength);i++){
+                                            if(i==locals.page-1){
+                                        %>
+                                                <li class="active"><a href="toprank?page=<%-i+1%>&optradio=<%-listLength%>"><%-i+1%></a></li>
+                                            <%}else{
+                                            %>
+                                                <li><a href="toprank?page=<%-i+1%>&optradio=<%-listLength%>"><%-i+1%></a></li>
+                                            <%
+                                            }
+                                        }
+                                    }
+
+                                %>
+                                
+
+
+                                <!-- <li><a href="#">2</a></li>
                                 <li><a href="#">3</a></li>
                                 <li><a href="#">4</a></li>
-                                <li><a href="#">5</a></li>
+                                <li><a href="#">5</a></li> -->
+
                                 <li><a href="#">&raquo;</a></li>
                             </ul>
                         </div>
@@ -235,3 +316,14 @@
                 </div>
             </section>
         </div>
+
+<script>
+
+
+     function submitMyForm(ev){
+
+        document.getElementById('numForm').submit();
+     }
+
+</script>
+
