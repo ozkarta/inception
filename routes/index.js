@@ -333,7 +333,7 @@
 
 	
 
-	this.router.get('/addmanager', function(req, res, next) {
+	this.router.get('/addmanager',isLoggedIn, function(req, res, next) {
 
 		console.log('add manager   was requested  ');		
 		myRouter.prototype.addManagerPreRender(req,_app,function(){
@@ -372,6 +372,36 @@
 			res.send(response);
 		})
 	});
+
+
+	this.router.post('/managerInseert',isLoggedIn,function(req,res,next){
+
+
+			console.dir(req.body);
+
+			newManager=new manager();
+			newManager.managerID=guid();
+			newManager.fullName=req.body.managerName;
+			newManager.possition=req.body.managerPossition;
+			newManager.department=req.body.managerDepartment;
+			newManager.currentCompany=req.body.addManagerAutoComplete_company;
+			newManager.email=req.body.managerEmail;
+			newManager.linkedinURL=req.body.managerLinkedIn;
+
+
+			newManager.save(function(err,savedManager){
+				if(err){
+					res.redirect('/addManager',{locals:{'err':'Error Occured,Try again'}})
+				}else{
+					res.redirect('/manager?id='+newManager.managerID);
+				}
+			})
+
+			
+
+
+			//res.redirect('manager?id=asdasdasdasd');	
+	})
 /*
 
 	//________________________________REGISTERED________________________________
@@ -622,4 +652,19 @@ myRouter.prototype.addManagerPreRender_registered=function(req,app,callback){
 
 //module.exports = router;
 //module.exports.initApp=initApp;
+
+
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+}
+
+
+
+
 module.exports.myRouter=myRouter;

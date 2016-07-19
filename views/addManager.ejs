@@ -1,41 +1,43 @@
  <div class="add-manager">
             <section class="add-manager-title col-xs-12">
-                <h1>Fill Out Form Below To Add Managers</h1>
+                <h1>Fill_ozz Out Form Below To Add Managers</h1>
             </section>
             <section class="add-manager-form">
                 <div class="container">
-                    <form>
+
+
+                    <form method="POST" action="managerInseert">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Manager Name</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="">
+                            <label for="">Manager Name</label>
+                            <input type="text" class="form-control" id="managerName" name="managerName" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Manager Title</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <label for="">Manager Possition</label>
+                            <input type="text" class="form-control" id="managerPossition" name="managerPossition" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Manager Department</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <label for="">Manager Department</label>
+                            <input type="text" class="form-control" id="managerDepartment" name="managerDepartment" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Current Company</label>
-                            <input type="text" class="form-control" id="addManagerAutoComplete_company" placeholder="" onkeyup="companyAutoComplete(this,'list1')">
+                            <label for="">Current Company</label>
+                            <input type="text" class="form-control" id="addManagerAutoComplete_company" name="addManagerAutoComplete_company" placeholder="" onkeyup="companyAutoComplete(this,'list1')">
                            <div id="resultSection1">
                                 <ol id="list1" class="col-xs-12">
                                 </ol>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Manager Email Address</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <label for="">Manager Email Address</label>
+                            <input type="email" class="form-control" id="managerEmail" name="managerEmail" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Manager Linkedin Account</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="">
+                            <label for="">Manager Linkedin Account</label>
+                            <input type="text" class="form-control" id="managerLinkedIn" name="managerLinkedIn" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPassword1">Previous Work</label>
-                            <input type="text" class="form-control" id="addManagerAutoComplete_previous_company" placeholder="" onkeyup="companyAutoComplete(this,'list2')">
+                            <label for="">Previous Work</label>
+                            <input type="text" class="form-control" id="addManagerAutoComplete_previous_company" name="addManagerAutoComplete_previous_company" placeholder="" onkeyup="companyAutoComplete(this,'list2')">
                            <div id="resultSection2">
                                 <ol id="list2" class="col-xs-12">
                                 </ol>
@@ -109,4 +111,6 @@
                     
                     }
             }
+
+
         </script>
