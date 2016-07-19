@@ -2004,22 +2004,52 @@ footer .list-inline ul {
 }
 
 
+/*------------------------------------------------faq-------------------------------*/
+
 .faq {
-    margin-top: -40px;
+    margin: 20px 0;
 }
 
 .faq h1 {
     padding: 20px;
-    background-color: #ebebeb;
+    text-align: center;
+     background: -webkit-linear-gradient(left, rgba(255,255,255, .2), rgba(220,220,220, .9), rgba(200,200,200, .6), rgba(235,235,235, .8), rgba(255,255,255, .1));
+   /* For Opera 11.1 to 12.0 */
+   background: -o-linear-gradient(left, rgba(255,255,255, .2), rgba(220,220,220, .9), rgba(200,200,200, .6), rgba(235,235,235, .8), rgba(255,255,255, .1));
+   /* For Fx 3.6 to 15 */
+   background: -moz-linear-gradient(left, rgba(255,255,255, .2), rgba(220,220,220, .9), rgba(200,200,200, .6), rgba(235,235,235, .8), rgba(255,255,255, .1));
+   /* Standard syntax */
+   background: linear-gradient(left, rgba(255,255,255, .2), rgba(220,220,220, .9), rgba(200,200,200, .6), rgba(235,235,235, .8), rgba(255,255,255, .1));
+   
+}
+
+.faq-img img {
+    height: 250px;
+    width: 250px;
+}
+
+.faq-img {
     text-align: center;
 }
 
 .faq li {
-    list-style-type: decimal;
     margin: 20px 0;
     font-size: 18px;
 }
 
+.question {
+    color: #911;
+}
+
 .answer {
     margin-top: 10px;
+    color: #182;
 }
+
+.question img, .answer img {
+    height: 35px;
+    width: 35px;
+}
+
+
+/*--------------------------------------faq end---------------------------*/
