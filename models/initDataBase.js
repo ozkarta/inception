@@ -5,7 +5,7 @@ module.exports=function(){
 	
 	addCompanies();
 	addManagers();
-	addRatingsManual();
+	//addRatingsManual();
 }
 
 function addCompany(id,name){

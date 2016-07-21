@@ -1,5 +1,5 @@
  <%
- var listLength=locals.listLength;
+ var listLength=parseInt(locals.listLength);
 
  var is10='',is25='',is50='',is100='';
  if(listLength==10){
@@ -12,7 +12,7 @@
     is50='checked';
  }
   if(listLength==100){
-    is10='checked';
+    is100='checked';
  }
   
  %>
@@ -68,15 +68,7 @@
                             <%  if(locals.managers!==undefined){
 
                                    
-                                    var autTotal=0;
-                                    var expTotal=0;
-                                    var mentTotal=0;
-                                    var rewTotal=0;
-                                    var recTotal=0;
-
-                                    var counter=0;
-
-                                    var beginI=0;
+                                     var beginI=0;
 
                                     console.log('page is '+ locals.page);
                                     if(locals.page!==undefined){
@@ -84,11 +76,28 @@
                                     }
                                     
                                     var endI=beginI+listLength;
-                                    if(locals.managers.length<endI){
+
+
+                                    if(locals.managers.length < endI){
                                         endI=locals.managers.length;
+                                        console.log('ak shedis da rato ar vici');
                                     }
+                                    console.log('begin is  '+beginI);
+                                    console.log('listLength is '+listLength);
+                                    console.log('array length is '+locals.managers.length);
+                                    console.log('eding is ' +endI)
                                     
                                     for(i=beginI;i<endI;i++){
+                                        var autTotal=0;
+                                        var expTotal=0;
+                                        var mentTotal=0;
+                                        var rewTotal=0;
+                                        var recTotal=0;
+
+                                        var counter=0;
+
+                                       
+
                                         for(k=0;k<locals.managers[i].rating.length;k++){
                                                 autTotal= autTotal+parseInt(locals.managers[i].rating[k].autonomy);
                                                 expTotal= expTotal+parseInt(locals.managers[i].rating[k].expectation);

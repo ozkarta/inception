@@ -11,7 +11,11 @@
             var recTotal=0;
 
             var counter=0;
+            var mustDraw='Y';
 
+            if(locals.manager.rating.length==0){
+            mustDraw='N';
+            }
             for (i=0;i<locals.manager.rating.length;i++){ 
                     autTotal= autTotal+parseInt(locals.manager.rating[i].autonomy);
                     expTotal= expTotal+parseInt(locals.manager.rating[i].expectation);
@@ -21,6 +25,8 @@
 
                     counter=counter+1;
             }  %>
+                <input type ="hidden" value="<%=mustDraw%>" id="mustDrowVariable" name="">
+
 
                 <input type ="hidden" value="<%=autTotal/counter/5 %>" id="autonomy_variable" name="">
                 <input type ="hidden" value="<%=expTotal/counter/5 %>" id="expectation_variable" name="">
@@ -35,231 +41,605 @@
                     <div class="manager-image"></div>
                     <div class="rate-manager">
 
-                        <% if(locals.user!==undefined){  %>
-                        <button class="btn view-profile">Rate This Person</button>
-                        <div id="rate-modal">
-                            <div id="popupRate">
-                                <div class="rate-modal-view">
-                                    <div class="rate-modal-content">
-                                        <div class="rate-title col-sm-12">
-                                            <h3>Rate Boss</h3>
-                                            <span id="rate-modal-close">&#10006;</span>
-                                        </div>
-                                        <div class="rate-table-container">
-                                            <table class="table rate-table">
-                                                <tbody>
-                                                    <tr>
-                                                        <td class="rate-category">Gives you autonomy and independence :</td>
-                                                        <td>
-                                                            <div class="star-rating-in">
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="1" id='input1'>
-                                                                    <i></i>
-                                                                </a>
+                        <% if(locals.user!==undefined){
+                            var contains=false;
+                            var myRate=undefined;
+                            var currentUserID='ozkart';
+                            
+                            //console.dir(locals.user);
+                            
+                            if(locals.user.facebook.id!==undefined){                                
+                                currentUserID=locals.user.facebook.id;
+                                
+                            }
+                            
+                            if(locals.user.google.id!==undefined){                                
+                                currentUserID=locals.user.google.id;
+                                
+                            }
+                           
+                            if(locals.user.linkedin.id!==undefined){
+                                currentUserID=locals.user.linkedin.id;
+                                
+                            }
 
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="2" id='input2'>
-                                                                    <i></i>
-                                                                </a>
+                            //console.log(currentUserID);
 
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="3" id='input3'>
-                                                                    <i></i>
-                                                                </a>
 
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="4" id='input4'>
-                                                                    <i></i>
-                                                                </a>
 
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="5" id='input5'>
-                                                                    <i></i>
-                                                                </a>
+                                for(p=0;p<locals.manager.rating.length;p++){
+                                //console.dir(locals.manager.rating[p]);
+                                //console.log('++++++++++++++'+locals.manager.rating[p].userID+'  vs  '+currentUserID)
+                                    if(locals.manager.rating[p].userID==currentUserID){
+                                        contains=true;
+                                        myRate=locals.manager.rating[p];
+                                    }
+                                }   
+
+                                if(!contains){
+                            %>
+                                    <button class="btn view-profile">Rate This Person</button>
+                                    <div id="rate-modal">
+                                        <div id="popupRate">
+                                            <div class="rate-modal-view">
+                                                <div class="rate-modal-content">
+                                                    <div class="rate-title col-sm-12">
+                                                        <h3>Rate Boss</h3>
+                                                        <span id="rate-modal-close">&#10006;</span>
+                                                    </div>
+                                                    <form method="POST" action="rate">
+                                                        <div class="rate-table-container">
+                                                            <table class="table rate-table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="rate-category">Gives you autonomy and independence :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Clear expectations :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Mentors or develops you :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Rewards good work :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Recognizes a healthy work-life fit :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="rate-container">
+                                                                <div class="rate-comment comment-pro">
+                                                                    <h3>Pros:</h3> <img src="/images/thumb-up.svg" width=20 height=20 alt="">
+                                                                    <textarea name="pros" rows="8" cols="30"></textarea>
+                                                                    <span>400 character remaining</span>
+                                                                </div>
+                                                                <div class="rate-comment comment-con">
+                                                                    <h3>Cons:</h3> <img src="/images/thumb-down.svg" width=20 height=20 alt="">
+                                                                    <textarea name="cons" rows="8" cols="30"></textarea>
+                                                                    <span>400 character remaining</span>
+                                                                </div>
+                                                                <input type="hidden" id="timer" name="time">
+                                                                <input type="hidden" name="managerID" value="<%=locals.manager.managerID %>">
+                                                                <div class="rate-confirm">
+                                                                    <button class="btn" type="submit"  onclick="getUserDate()">Submit</button>
+                                                                </div>
                                                             </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="rate-category">Clear expectations :</td>
-                                                        <td>
-                                                            <div class="star-rating-in">
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="1" id='input1'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="2" id='input2'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="3" id='input3'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="4" id='input4'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="5" id='input5'>
-                                                                    <i></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="rate-category">Mentors or develops you :</td>
-                                                        <td>
-                                                            <div class="star-rating-in">
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="1" id='input1'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="2" id='input2'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="3" id='input3'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="4" id='input4'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="5" id='input5'>
-                                                                    <i></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="rate-category">Rewards good work :</td>
-                                                        <td>
-                                                            <div class="star-rating-in">
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="1" id='input1'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="2" id='input2'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="3" id='input3'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="4" id='input4'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="5" id='input5'>
-                                                                    <i></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="rate-category">Recognizes a healthy work-life fit :</td>
-                                                        <td>
-                                                            <div class="star-rating-in">
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="1" id='input1'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="2" id='input2'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="3" id='input3'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="4" id='input4'>
-                                                                    <i></i>
-                                                                </a>
-
-                                                                <a href="">
-                                                                    <input type="radio" name="rating" value="5" id='input5'>
-                                                                    <i></i>
-                                                                </a>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                            <div class="rate-container">
-                                                <div class="rate-comment comment-pro">
-                                                    <h3>Pros:</h3> <img src="/images/thumb-up.svg" width=20 height=20 alt="">
-                                                    <textarea name="name" rows="8" cols="30"></textarea>
-                                                    <span>400 character remaining</span>
-                                                </div>
-                                                <div class="rate-comment comment-con">
-                                                    <h3>Cons:</h3> <img src="/images/thumb-down.svg" width=20 height=20 alt="">
-                                                    <textarea name="name" rows="8" cols="30"></textarea>
-                                                    <span>400 character remaining</span>
-                                                </div>
-                                                <div class="rate-confirm">
-                                                    <button class="btn" type="button" name="button">Submit</button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <% } %>
+                        <%      }else{   if(contains){
+
+                        %>
+                            <button class="btn view-profile">Change My Rate</button>
+                            <div id="rate-modal">
+                                        <div id="popupRate">
+                                            <div class="rate-modal-view">
+                                                <div class="rate-modal-content">
+                                                    <div class="rate-title col-sm-12">
+                                                        <h3>Rate Boss</h3>
+                                                        <span id="rate-modal-close">&#10006;</span>
+                                                    </div>
+                                                    <form method="POST" action="changeRate">
+                                                        <div class="rate-table-container">
+                                                            <table class="table rate-table">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="rate-category">Gives you autonomy and independence :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+
+                                                                                <%
+                                                                                    for(k=0;k<5;k++){
+                                                                                        if(parseInt(myRate.autonomy)==k+1){
+                                                                                            %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="autonomy" value="<%=k+1%>" id='input<%=k+1%>' checked>
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }else{
+                                                                                             %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="autonomy" value="<%=k+1%>" id='input<%=k+1%>' >
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }
+                                                                                    }
+
+                                                                                %>
+                                                                                <!-- <a href="">
+                                                                                    <input type="radio" name="autonomy" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="autonomy" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a> -->
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Clear expectations :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                <%
+                                                                                    for(k=0;k<5;k++){
+                                                                                        if(parseInt(myRate.expectation)==k+1){
+                                                                                            %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="expectation" value="<%=k+1%>" id='input<%=k+1%>' checked>
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }else{
+                                                                                             %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="expectation" value="<%=k+1%>" id='input<%=k+1%>' >
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }
+                                                                                    }
+
+                                                                                %>
+
+                                                                                <!-- <a href="">
+                                                                                    <input type="radio" name="expectation" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="expectation" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a> -->
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Mentors or develops you :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                
+                                                                                <%
+                                                                                    for(k=0;k<5;k++){
+                                                                                        if(parseInt(myRate.mentorship)==k+1){
+                                                                                            %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="mentorship" value="<%=k+1%>" id='input<%=k+1%>' checked>
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }else{
+                                                                                             %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="mentorship" value="<%=k+1%>" id='input<%=k+1%>' >
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }
+                                                                                    }
+
+                                                                                %>
+
+
+                                                                                <!-- <a href="">
+                                                                                    <input type="radio" name="mentorship" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="mentorship" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a> -->
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Rewards good work :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                
+                                                                                <%
+                                                                                    for(k=0;k<5;k++){
+                                                                                        if(parseInt(myRate.reward)==k+1){
+                                                                                            %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="reward" value="<%=k+1%>" id='input<%=k+1%>' checked>
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }else{
+                                                                                             %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="reward" value="<%=k+1%>" id='input<%=k+1%>' >
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }
+                                                                                    }
+
+                                                                                %>
+
+
+
+
+                                                                                <!-- <a href="">
+                                                                                    <input type="radio" name="reward" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="reward" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a> -->
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td class="rate-category">Recognizes a healthy work-life fit :</td>
+                                                                        <td>
+                                                                            <div class="star-rating-in">
+                                                                                 <%
+                                                                                    for(k=0;k<5;k++){
+                                                                                        if(parseInt(myRate.recognition)==k+1){
+                                                                                            %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="recognition" value="<%=k+1%>" id='input<%=k+1%>' checked>
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }else{
+                                                                                             %>
+                                                                                                <a href="">
+                                                                                                    <input type="radio" name="recognition" value="<%=k+1%>" id='input<%=k+1%>' >
+                                                                                                    <i></i>
+                                                                                                </a>
+                                                                                            <%
+                                                                                        }
+                                                                                    }
+
+                                                                                %>
+
+
+
+                                                                                <!-- <a href="">
+                                                                                    <input type="radio" name="recognition" value="1" id='input1'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="2" id='input2'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="3" id='input3'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="4" id='input4'>
+                                                                                    <i></i>
+                                                                                </a>
+
+                                                                                <a href="">
+                                                                                    <input type="radio" name="recognition" value="5" id='input5'>
+                                                                                    <i></i>
+                                                                                </a> -->
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <div class="rate-container">
+                                                                <div class="rate-comment comment-pro">
+                                                                    <h3>Pros:</h3> <img src="/images/thumb-up.svg" width=20 height=20 alt="">
+                                                                    <textarea name="pros" rows="8" cols="30"><%=myRate.pros%></textarea>
+                                                                    <span>400 character remaining</span>
+                                                                </div>
+                                                                <div class="rate-comment comment-con">
+                                                                    <h3>Cons:</h3> <img src="/images/thumb-down.svg" width=20 height=20 alt="">
+                                                                    <textarea name="cons" rows="8" cols="30"><%=myRate.cons%></textarea>
+                                                                    <span>400 character remaining</span>
+                                                                </div>
+                                                                <input type="hidden" id="timer" name="time">
+                                                                <input type="hidden" name="managerID" value="<%=locals.manager.managerID %>">
+                                                                <div class="rate-confirm">
+                                                                    <button class="btn" type="submit"  onclick="getUserDate()">Edit</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        <%
+                                        }
+                                }
+                            }
+                         %>
                     </div>
                     <h1><%-locals.manager.fullName -%>, <%-locals.manager.possition -%> at <%-locals.manager.currentCompany-%> (<%-locals.manager.department-%>)</h1>
-                    <div class="manager-progress-bar col-sm-12">
-                        <div class="manager-rating">
-                            <h4>Gives Autonomy and Independence</h4>
-                            <div id="independence"></div>
+
+                    <%
+                    if(locals.manager.rating.length!==0){
+                    %>
+                         <div class="manager-progress-bar col-sm-12">
+                            <div class="manager-rating">
+                                <h4>Gives Autonomy and Independence</h4>
+                                <div id="independence"></div>
+                            </div>
+                            <div class="manager-rating">
+                                <h4>Clear Expectaions</h4>
+                                <div id="expectation"></div>
+                            </div>
+                            <div class="manager-rating">
+                                <h4>Mentors and Develops you</h4>
+                                <div id="mentor"></div>
+                            </div>
+                            <div class="manager-rating">
+                                <h4>Rewards Good Work</h4>
+                                <div id="reward"></div>
+                            </div>
+                            <div class="manager-rating">
+                                <h4>Recognizes a Healthy Work-Life Balance</h4>
+                                <div id="balance"></div>
+                            </div>
                         </div>
-                        <div class="manager-rating">
-                            <h4>Clear Expectaions</h4>
-                            <div id="expectation"></div>
+                        <div class="overall-rating">
+                            <div class="overall-manager-rating">
+                                <h4>Overall</h4>
+                                <div id="overall"></div>
+                            </div>
                         </div>
-                        <div class="manager-rating">
-                            <h4>Mentors and Develops you</h4>
-                            <div id="mentor"></div>
-                        </div>
-                        <div class="manager-rating">
-                            <h4>Rewards Good Work</h4>
-                            <div id="reward"></div>
-                        </div>
-                        <div class="manager-rating">
-                            <h4>Recognizes a Healthy Work-Life Balance</h4>
-                            <div id="balance"></div>
-                        </div>
-                    </div>
-                    <div class="overall-rating">
-                        <div class="overall-manager-rating">
-                            <h4>Overall</h4>
-                            <div id="overall"></div>
-                        </div>
-                    </div>
+                    <%
+                    }
+
+                    %>
+                   
                 </section>
                 <section class="users-opinions">
-                    <h2>User Ratings and Comments</h2>
+
+                    <%  
+                        if(locals.manager.rating.length!==0){
+                            %>
+                                <h2>User Ratings and Comments</h2>
+                            <%
+                        }else{
+                        %>
+                            <h2>User  was  not rated  yet</h2>
+                        <%
+                        }
+                    %>
+                    
 
                     <%  for(i=0;i<locals.manager.rating.length;i++){   %>
                     <div class="user-opinion-table-wrapper">
@@ -284,31 +664,31 @@
                                         <div class="star-rating">
                                                 <%  %>
                                                     <a href="">
-                                                        <input type="radio" name="rating" value="1" id='input1'>
+                                                        <input type="radio" name="autonomy" value="1" id='input1'>
                                                         <i style="width:<%=parseInt(locals.manager.rating[i].autonomy)*20%>% !important"></i>
                                                     </a>
                                                 <%  %>
                                                 <%  %>
                                                     <a href="">
-                                                        <input type="radio" name="rating" value="2" id='input2'>
+                                                        <input type="radio" name="autonomy" value="2" id='input2'>
                                                         <i style="width:<%=parseInt(locals.manager.rating[i].autonomy)*20%>% !important"></i>
                                                     </a>
                                                 <%  %>
                                                 <%  %>
                                                     <a href="">
-                                                        <input type="radio" name="rating" value="3" id='input3'>
+                                                        <input type="radio" name="autonomy" value="3" id='input3'>
                                                         <i style="width:<%=parseInt(locals.manager.rating[i].autonomy)*20%>% !important"></i>
                                                     </a>
                                                 <%  %>
                                                 <%  %>
                                                     <a href="">
-                                                        <input type="radio" name="rating" value="4" id='input4'>
+                                                        <input type="radio" name="autonomy" value="4" id='input4'>
                                                         <i style="width:<%=parseInt(locals.manager.rating[i].autonomy)*20%>% !important"></i>
                                                     </a>
                                                 <%  %>
                                                 <%  %>
                                                     <a href="">
-                                                        <input type="radio" name="rating" value="5" id='input5'>
+                                                        <input type="radio" name="autonomy" value="5" id='input5'>
                                                         <i style="width:<%=parseInt(locals.manager.rating[i].autonomy)*20%>% !important"></i>
                                                     </a>
                                                  <%  %>
@@ -317,27 +697,27 @@
                                     <td>
                                         <div class="star-rating">
                                             <a href="">
-                                                <input type="radio" name="rating" value="1" id='input1'>
+                                                <input type="radio" name="expectation" value="1" id='input1'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].expectation)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="2" id='input2'>
+                                                <input type="radio" name="expectation" value="2" id='input2'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].expectation)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="3" id='input3'>
+                                                <input type="radio" name="expectation" value="3" id='input3'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].expectation)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="4" id='input4'>
+                                                <input type="radio" name="expectation" value="4" id='input4'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].expectation)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="5" id='input5'>
+                                                <input type="radio" name="expectation" value="5" id='input5'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].expectation)*20%>% !important"></i>
                                             </a>
                                         </div>
@@ -345,27 +725,27 @@
                                     <td>
                                         <div class="star-rating">
                                             <a href="">
-                                                <input type="radio" name="rating" value="1" id='input1'>
+                                                <input type="radio" name="mentorship" value="1" id='input1'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].mentorship)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="2" id='input2'>
+                                                <input type="radio" name="mentorship" value="2" id='input2'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].mentorship)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="3" id='input3'>
+                                                <input type="radio" name="mentorship" value="3" id='input3'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].mentorship)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="4" id='input4'>
+                                                <input type="radio" name="mentorship" value="4" id='input4'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].mentorship)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="5" id='input5'>
+                                                <input type="radio" name="mentorship" value="5" id='input5'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].mentorship)*20%>% !important"></i>
                                             </a>
                                         </div>
@@ -373,27 +753,27 @@
                                     <td>
                                         <div class="star-rating">
                                             <a href="">
-                                                <input type="radio" name="rating" value="1" id='input1'>
+                                                <input type="radio" name="reward" value="1" id='input1'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].reward)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="2" id='input2'>
+                                                <input type="radio" name="reward" value="2" id='input2'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].reward)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="3" id='input3'>
+                                                <input type="radio" name="reward" value="3" id='input3'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].reward)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="4" id='input4'>
+                                                <input type="radio" name="reward" value="4" id='input4'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].reward)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="5" id='input5'>
+                                                <input type="radio" name="reward" value="5" id='input5'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].reward)*20%>% !important"></i>
                                             </a>
                                         </div>
@@ -401,27 +781,27 @@
                                     <td>
                                         <div class="star-rating">
                                             <a href="">
-                                                <input type="radio" name="rating" value="1" id='input1'>
+                                                <input type="radio" name="recognition" value="1" id='input1'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].recognition)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="2" id='input2'>
+                                                <input type="radio" name="recognition" value="2" id='input2'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].recognition)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="3" id='input3'>
+                                                <input type="radio" name="recognition" value="3" id='input3'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].recognition)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="4" id='input4'>
+                                                <input type="radio" name="recognition" value="4" id='input4'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].recognition)*20%>% !important"></i>
                                             </a>
 
                                             <a href="">
-                                                <input type="radio" name="rating" value="5" id='input5'>
+                                                <input type="radio" name="recognition" value="5" id='input5'>
                                                 <i style="width:<%=parseInt(locals.manager.rating[i].recognition)*20%>% !important"></i>
                                             </a>
                                         </div>
@@ -486,3 +866,39 @@
 <% }  %>
 
 
+<script>
+
+window.onload = function() {
+    document.querySelector('body').addEventListener('click', function(e) {
+        e.target.nextElementSibling.style.width = "0%"; 
+        e.target.nextElementSibling.style.opacity = "1";        
+        e.target.nextElementSibling.style.width = (e.target.value * 20) + "%"; 
+        // e.preventDefault()
+    })
+}
+
+
+function getUserDate(){
+    var currentdate = new Date(); 
+    var month=''
+    if((''+currentdate.getMonth()).length==1){
+        month='0'+currentdate.getMonth();
+    }else{
+        month=currentdate.getMonth();;
+    }
+
+    var day=''
+    if((''+currentdate.getDate()).length==1){
+        day='0'+currentdate.getDate();
+    }else{
+        day=currentdate.getDate();
+    }
+    var datetime = currentdate.getFullYear()+'-'+month+'-'+day;
+    //alert(datetime);
+    document.getElementById('timer').value=datetime;
+    //alert(document.getElementById('timer').value);
+
+}
+
+
+</script>

@@ -1,7 +1,7 @@
    var dbInit=require('../models/initDataBase.js')();
    	var company=require('../models/companies.js');
    	var manager=require('../models/manager.js');
-
+   	var rating=require('../models/ratings.js');
    	
    myRouter=function(_app,_passport){
    	
@@ -401,6 +401,157 @@
 
 
 			//res.redirect('manager?id=asdasdasdasd');	
+	})
+
+
+	this.router.post('/rate',isLoggedIn, function(req,res,next){
+		var rate=new rating();
+		//console.dir(req.user);
+		if(req.user.facebook.id!==undefined){
+			rate.userID=req.user.facebook.id;
+		}
+		if(req.user.google.id!==undefined){
+			rate.userID=req.user.google.id;
+		}
+		if(req.user.linkedin.id!==undefined){
+			rate.userID=req.user.linkedin.id;
+		}
+
+		rate.rateDate=req.body.time;
+
+		rate.recognition=req.body.recognition;
+		rate.autonomy=req.body.autonomy;		
+		rate.expectation=req.body.expectation;		
+		rate.mentorship=req.body.mentorship;		
+		rate.reward=req.body.reward;			
+
+		rate.pros=req.body.pros;			
+		rate.cons=req.body.cons;
+
+		manager.findOne({'managerID':req.body.managerID},function(err,managerToRate){
+			if(!err){
+				//console.dir(managerToRate);
+				var allreadyRated=false;
+				if(managerToRate.rating!==undefined){
+					for(i=0;i<managerToRate.rating.length;i++){
+						if(managerToRate.rating[i].userID==rate.userID){
+							allreadyRated=true;
+							//res.redirect('/manager?id='+managerToRate.managerID);					
+						}
+					}
+				}
+				if(!allreadyRated){
+					managerToRate.rating.push(rate);
+					managerToRate.save(function(err,savedManager){
+						//res.redirect('/manager?id='+managerToRate.managerID);
+					})
+				}
+
+			}else{
+				//res.redirect('/manager?id='+managerToRate.managerID);
+			}	
+			res.redirect('/manager?id='+managerToRate.managerID);
+		})
+
+
+
+	})
+
+	this.router.post('/changeRate',isLoggedIn, function(req,res,next){
+		//var rate=new rating();
+		//console.dir(req.user);
+		console.log('!!!!IMPORTANT!!!!  changeRate  was requested by POST');
+
+		console.dir(req.body);
+
+
+		var userID=undefined;
+
+
+		if(req.user.facebook.id!==undefined){
+			userID=req.user.facebook.id;
+		}
+		if(req.user.google.id!==undefined){
+			userID=req.user.google.id;
+		}
+		if(req.user.linkedin.id!==undefined){
+			userID=req.user.linkedin.id;
+		}
+		console.log(userID+' is userID');
+		
+		// rate.rateDate=req.body.time;
+
+		// rate.recognition=req.body.recognition;
+		// rate.autonomy=req.body.autonomy;		
+		// rate.expectation=req.body.expectation;		
+		// rate.mentorship=req.body.mentorship;		
+		// rate.reward=req.body.reward;			
+
+		// rate.pros=req.body.pros;			
+		// rate.cons=req.body.cons;
+		console.log('looking for  manager with ID  '+req.body.managerID);
+		manager.findOne({'managerID':req.body.managerID},function(err,managerToRate){
+			if(!err){
+				console.log('manager found!!');
+				var allreadyRated=false;
+				if(managerToRate.rating!==undefined){
+					for(i=0;i<managerToRate.rating.length;i++){
+						if(managerToRate.rating[i].userID==userID){
+							console.log('updating ... ' +managerToRate.fullName)
+							allreadyRated=true;
+							//res.redirect('/manager?id='+managerToRate.managerID);		
+							//managerToRate.rating[i].userID=userID;
+								var rate=managerToRate.rating[i];
+								// rate.rateDate=req.body.time;
+
+								rate.recognition=req.body.recognition;
+								rate.autonomy=req.body.autonomy;		
+								rate.expectation=req.body.expectation;		
+								rate.mentorship=req.body.mentorship;		
+								rate.reward=req.body.reward;			
+
+								rate.pros=req.body.pros;			
+								rate.cons=req.body.cons;
+
+								// managerToRate.rating[i].rateDate=req.body.time;
+
+								// managerToRate.rating[i].recognition=req.body.recognition;
+								// managerToRate.rating[i].autonomy=req.body.autonomy;		
+								// managerToRate.rating[i].expectation=req.body.expectation;		
+								// managerToRate.rating[i].mentorship=req.body.mentorship;		
+								// managerToRate.rating[i].reward=req.body.reward;			
+
+								// managerToRate.rating[i].pros=req.body.pros;			
+								// managerToRate.rating[i].cons=req.body.cons;	
+								managerToRate.rating.set(i,rate);		
+								managerToRate.save(function(err,savedManager){
+									if(err){
+										console.log('error while saving');
+										console.dir(err);
+									}else{
+
+										console.log('updated succesfully ');
+										console.dir(savedManager.rating);
+									}
+								})
+						}
+					}
+				}
+				// if(!allreadyRated){
+				// 	managerToRate.rating.push(rate);
+				// 	managerToRate.save(function(err,savedManager){
+				// 		//res.redirect('/manager?id='+managerToRate.managerID);
+				// 	})
+				// }
+
+			}else{
+				console.dir(err);
+			}	
+			res.redirect('/manager?id='+managerToRate.managerID);
+		})
+
+
+
 	})
 /*
 

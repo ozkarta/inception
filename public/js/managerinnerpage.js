@@ -1,7 +1,7 @@
 window.onload = function(e) {
         //console.dir(e);
         console.log(e.target.location.pathname)
-        if(e.target.location.pathname==='/manager' || e.target.location.pathname==='/user/managerinnerpage'){
+        if((e.target.location.pathname==='/manager' || e.target.location.pathname==='/user/managerinnerpage') & document.getElementById('mustDrowVariable').value=='Y'){
             console.log('mushaobs');
             var bar = new ProgressBar.Circle(independence, {
                 color: '#aaa',
