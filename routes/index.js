@@ -270,6 +270,26 @@
 
 		console.log('index was requested  ');		
 		myRouter.prototype.topRankPreRender(req,_app,function(managerArray){
+				console.dir(managerArray);
+				var page=1;
+				if(req.query.page!==undefined){
+					page=req.query.page;
+				}
+				var listLength=10;
+				if(req.query.optradio!==undefined){
+					listLength=req.query.optradio;
+				}
+				res.render('toprank',{locals:{'user':req.user,'managers':managerArray,'page':page,'listLength':listLength}});
+		})
+
+
+	  
+	});
+
+	this.router.post('/toprank', function(req, res, next) {
+
+			
+		myRouter.prototype.topRankPreRender_post(req,_app,function(managerArray){
 				var page=1;
 				if(req.query.page!==undefined){
 					page=req.query.page;
@@ -682,15 +702,65 @@ myRouter.prototype.blogPreRender=function(req,app,callback){
 		}
 
 myRouter.prototype.topRankPreRender=function(req,app,callback){
+			// app.set('layout','layouts/all_pages_layout');
+
+			// manager.find({},function(err,managerRes){
+			// 	if(err){
+			// 		callback(undefined)
+			// 	}else{
+			// 		callback(managerRes);
+			// 	}
+			// })
+
+
+			app.set('layout','layouts/all_pages_layout');
+			console.log('@@@@@@@@@@@@@')
+			console.log(req.query.searchQ);
+
+			if(req.query.searchQ===undefined || req.query.searchQ===''){
+					manager.find({},function(err,managerRes){
+						if(err){
+							callback(undefined)
+						}else{
+							callback(managerRes);
+						}
+					})
+
+			}else{
+				manager.find({'fullName':req.query.searchQ},function(err,managerRes){
+					if(err){
+						callback(undefined)
+					}else{
+						callback(managerRes);
+					}
+				})
+			}
+			//callback();
+		}
+
+myRouter.prototype.topRankPreRender_post=function(req,app,callback){
 			app.set('layout','layouts/all_pages_layout');
 
-			manager.find({},function(err,managerRes){
-				if(err){
-					callback(undefined)
-				}else{
-					callback(managerRes);
-				}
-			})
+
+			if(req.query.searchQ==''){
+					manager.find({'fullName':req.body.searchQ},function(err,managerRes){
+						if(err){
+							callback(undefined)
+						}else{
+							callback(managerRes);
+						}
+					})
+
+			}else{
+				manager.find({'fullName':req.body.searchQ},function(err,managerRes){
+					if(err){
+						callback(undefined)
+					}else{
+						callback(managerRes);
+					}
+				})
+			}
+			
 
 
 			//callback();
