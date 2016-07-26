@@ -1,10 +1,15 @@
 var company=require('../models/companies.js');
 var manager=require('../models/manager.js');
 var ratings=require('../models/ratings.js');
+
+var blog=require('../models/blog.js');
+var comment=require('../models/comments.js');
+
 module.exports=function(){
-	
+	console.log('db Initialization starts there')
 	addCompanies();
 	addManagers();
+	//addComments(); //blog
 	//addRatingsManual();
 }
 
@@ -103,6 +108,10 @@ function addRating(managerID,userID,Idontknow,recognition,autonomy,expectation,m
 				console.log('zoia rating was added');
 			})
 		})
+}
+
+function addComment(){
+
 }
 
 
@@ -6487,6 +6496,48 @@ function addRatingsTestVersion(){
 
 }
 
+function addComments(){
+	console.log('adding blog');
+	var newblog=new blog();
+	newblog.blogID=guid();
+	newblog.commentID=guid();
+	newblog.userID	='1818474158373805';
+	newblog.blogTitle='Interviewing the Interviewer (dynamic2)';
+	newblog.blogInnerHTML='We have all gone through the arduous process of job hunting. In today’s economy, most of us are trying to find that job with greater benefits, or one that pays more money. The majority of us have walked into an interview with an “I will do whatever it takes to get this job” mentality. This mentality may work for those who are entry level, or those desperately wanting to leave a sinking ship and have mortgage payments to think about. However, this mindset will get you nowhere if you are truly looking for the best fit and the closest approximation to the “perfect” job for you. The reality is that there is no such thing as the “perfect” job, company or career. However, we can control making the best out of any situation we are in, and turning it to our advantage. The most important asset you possess is a good attitude. It may sound corny, but it is true. You need to have a good attitude; this attitude will help your self-esteem, your focus, people’s perception of you, and eventually will get to where you are looking to go. The attitude that you must have is the following: “I am willing to do this job because this job will help me to get [next step in the corporate ladder] until I get to “X”. Your particular “X” can be the CEO, it might be FX Trader Extraordinaire, it might be entrepreneur. But once you have this mantra seared into the back of your mind, you will not be as miserable in any job because you will see the longer term. This attitude will also help you to have the self-assurance you need when interviewing for a new job: not only going to the interview to try to get the job but to interview your interviewer as well. Yesss!!!! Interviewing your interviewer is one of the most essential components of your interview process. Most interviewees forget this and ask technical or salary and benefit questions and forget about asking questions such as: “could you please tell me more about the company culture?” You can frame these questions by stating “I read online the company stands by….” “Or goes by this mission…” “can you please tell me more about this and how you think our team fits into it?” “What do you think is one of the main challenges for a person joining this team?” “You mentioned you have been in the company for 10 years – what do you like most about the company?” Hope you are getting the idea…';
+	newblog.viewCounter='0';
+	//newblog.userName
+	//newblog.mail	
+	newblog.effDate	= getDate();
+	
+
+	var newComment1=new comment();
+	var newComment2=new comment();
+	newComment1.commentID=guid();
+	newComment1.userID	='880466012065028';
+	//newComment1.newComment1.userName
+	//newComment1.mail	
+	newComment1.userName='Oz Kart';
+	newComment1.effDate	=getDate();
+	newComment1.comment	='Wow  this  blog loooks great man'
+	//newComment1.reply
+
+	newComment2.commentID=guid();
+	newComment2.userID	='1818474158373805';
+	newComment2.userName='Admin';
+	//newComment2.newComment1.userName
+	//newComment2.mail	
+	newComment2.effDate	=getDate();
+	newComment2.comment	='Thanks dude,  that\'s inspiration for me  and I\'ll  try  to make this web site better and better  al time, Thanks again bitch'
+
+	newComment1.reply.push(newComment2);
+	newblog.comments.push(newComment1);
+
+	newblog.save(function(err,savedBlog){
+		console.dir(savedBlog);
+	})
+
+}
+
 
 function guid() {
   function s4() {
@@ -6496,4 +6547,24 @@ function guid() {
   }
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
+}
+
+
+function getDate(){
+	var currentdate = new Date(); 
+    var month=''
+    if((''+currentdate.getMonth()).length==1){
+        month='0'+(currentdate.getMonth()+1);
+    }else{
+        month=currentdate.getMonth();;
+    }
+
+    var day=''
+    if((''+currentdate.getDate()).length==1){
+        day='0'+currentdate.getDate();
+    }else{
+        day=currentdate.getDate();
+    }
+    var datetime = currentdate.getFullYear()+'-'+month+'-'+day;
+    return datetime;
 }

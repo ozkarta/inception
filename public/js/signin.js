@@ -1,4 +1,5 @@
-$(document).ready(function() {
+window.onload=function() {
+    
     /*SignIn/SignUp Pop-up ---- Start*/
     var $signUpButton = $("#sign-up");
     var $closeX = $("#close");
@@ -17,4 +18,6 @@ $(document).ready(function() {
     $closeX.click(function() {
         $abc.css("display","none");
     });
-});
+
+   
+};

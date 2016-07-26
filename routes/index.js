@@ -1,8 +1,13 @@
-   var dbInit=require('../models/initDataBase.js')();
+   var dbInit=require('../models/initDataBase.js');
    	var company=require('../models/companies.js');
    	var manager=require('../models/manager.js');
    	var rating=require('../models/ratings.js');
    	
+   	var blog=require('../models/blog.js');
+
+new dbInit();
+
+
    myRouter=function(_app,_passport){
    	
 
@@ -260,8 +265,8 @@
 	this.router.get('/blog', function(req, res, next) {
 
 		console.log('index was requested  ');		
-		myRouter.prototype.blogPreRender(req,_app,function(){
-				res.render('blog',{locals:{'user':req.user}});
+		myRouter.prototype.blogPreRender(req,_app,function(blogArray){
+				res.render('blog',{locals:{'user':req.user,'blogs':blogArray}});
 		})
 	  
 	});
@@ -305,6 +310,18 @@
 	  
 	});
 
+	this.router.post('/getComments', function(req, res, next) {
+
+			
+		myRouter.prototype.getCommentsPreRender_post(req,_app,function(blogObject){
+				
+				res.send(blogObject);
+		})
+
+
+	  
+	});
+
 
 	this.router.get('/about', function(req, res, next) {
 
@@ -321,8 +338,15 @@
 	this.router.get('/blogInner', function(req, res, next) {
 
 		console.log('index was requested  ');		
-		myRouter.prototype.blogInnerPreRender(req,_app,function(){
-				res.render('blogInner',{locals:{'user':req.user}});
+		myRouter.prototype.blogInnerPreRender(req,_app,function(blogResult){
+
+				var currentBlog=undefined;
+				for(i=0;i<blogResult.length;i++){
+					if(blogResult[i].blogID===req.query.blog){
+						currentBlog=blogResult[i];
+					}
+				}
+				res.render('blogInner',{locals:{'user':req.user,'blog':currentBlog,'blogArray':blogResult}});
 		})
 
 		
@@ -698,7 +722,13 @@ myRouter.prototype.faqPreRender=function(req,app,callback){
 
 myRouter.prototype.blogPreRender=function(req,app,callback){
 			app.set('layout','layouts/all_pages_layout');
-			callback();
+
+			blog.find({},function(err,result){
+				callback(result);
+			})
+
+
+			//callback();
 		}
 
 myRouter.prototype.topRankPreRender=function(req,app,callback){
@@ -774,7 +804,12 @@ myRouter.prototype.aboutUsPreRender=function(req,app,callback){
 
 myRouter.prototype.blogInnerPreRender=function(req,app,callback){
 	app.set('layout','layouts/all_pages_layout');
-	callback();
+
+	blog.find({},function(err,blogResult){
+			callback(blogResult);
+	})
+
+	
 }
 
 myRouter.prototype.managerInnerPreRender=function(req,app,callback){
@@ -796,6 +831,14 @@ myRouter.prototype.managerInnerPreRender=function(req,app,callback){
 myRouter.prototype.addManagerPreRender=function(req,app,callback){
 	app.set('layout','layouts/all_pages_layout');
 	callback();
+}
+
+myRouter.prototype.getCommentsPreRender_post=function(req,app,callback){
+
+	//console.dir(req.body);
+	blog.findOne({'blogID':req.body.blog},function(err,result){
+		callback(result);
+	})
 }
 
 /*

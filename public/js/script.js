@@ -54,6 +54,7 @@
 // });
 
 window.onload = function(e) {
+    alert('loaded script.js');
     /*BLOG --- hover effect on Read More glyphicon(arrow) ---- Start*/
     var $blogButton = $('.read-more');
     var $readMoreArrow = $(".glyphicon-chevron-right");

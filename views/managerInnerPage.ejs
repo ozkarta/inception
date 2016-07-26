@@ -882,7 +882,7 @@ function getUserDate(){
     var currentdate = new Date(); 
     var month=''
     if((''+currentdate.getMonth()).length==1){
-        month='0'+currentdate.getMonth();
+        month='0'+(currentdate.getMonth()+1);
     }else{
         month=currentdate.getMonth();;
     }

@@ -1,3 +1,6 @@
+ 
+<% if(locals.blogs!==undefined){  %>
+
  <div class="blog">
             <section class="blog-title">
                 <h1>BLOG</h1>
@@ -5,87 +8,146 @@
 
             <section>
                 <div class="container">
+
+                
+
+                    <%for(i=0;i<locals.blogs.length;i++){%>
+                      
                     <div class="blog-post col-xs-8">
 
                         <time class="icon">
-                            <em>2016</em>
-                            <strong>September</strong>
-                            <span>20</span>
+                            <em><%-(locals.blogs[i].effDate).substring(0,4)%></em>
+                            
+
+                            <%if((locals.blogs[i].effDate).substring(6,5,7)=='01'){%>
+                                <strong>January</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='02'){%>
+                                <strong>February</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='03'){%>
+                                <strong>March</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='04'){%>
+                                <strong>April</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='05'){%>
+                                <strong>May</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='06'){%>
+                                <strong>June</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='07'){%>
+                                <strong>July</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='08'){%>
+                                <strong>August</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='09'){%>
+                                <strong>September</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='10'){%>
+                                <strong>October</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='11'){%>
+                                <strong>November</strong>
+                            <%}%>
+                            <%if((locals.blogs[i].effDate).substring(5,7)=='12'){%>
+                                <strong>December</strong>
+                            <%}%>
+                            <span><%-(locals.blogs[i].effDate).substring(8,10)%></span>
                         </time>
                         <div class="blog-post-title">
-                            <h1>Interviewing the Interviewer</h1>
+                            <h1><%=locals.blogs[i].blogTitle%></h1>
                         </div>
                         <div>
-                            <p>We have all gone through the arduous process of job hunting. In today’s economy, most of us are trying to</p>
+                            <p><%=(locals.blogs[i].blogInnerHTML).substring(0,297)%> ......</p>
                         </div>
-                        <form action="./blogInner" method="GET">
-                            <button class="btn read-more" type="submit">Read More<span class="glyphicon glyphicon-chevron-right">
-                          </span></button>
+                        <form action="/blogInner" method="GET">
+                            <button class="btn read-more" type="submit">
+                                Read More
+                                <input type="hidden" name="blog" value="<%-locals.blogs[i].blogID%>">
+                                <span class="glyphicon glyphicon-chevron-right">
+                                </span>
+                            </button>
                         </form>
 
                     </div>
-                    <div class="blog-post col-xs-8">
-                        <time class="icon">
-                            <em>2016</em>
-                            <strong>September</strong>
-                            <span>20</span>
-                        </time>
-                        <div class="blog-post-title">
-                            <h1>Interviewing the Interviewer</h1>
-                        </div>
-                        <p>We have all gone through the arduous process of job hunting. In today’s economy, most of us are trying to</p>
-                        <form action="blogInner" method="GET">
-                            <button class="btn read-more" type="submit">Read More<span class="glyphicon glyphicon-chevron-right">
-                          </span></button>
-                        </form>
+                    <%}%>
 
-
-                    </div>
-                    <div class="blog-post col-xs-8">
-                        <time class="icon">
-                            <em>2016</em>
-                            <strong>September</strong>
-                            <span>20</span>
-                        </time>
-                        <div class="blog-post-title">
-                            <h1>Interviewing the Interviewer</h1>
-                        </div>
-                        <p>We have all gone through the arduous process of job hunting. In today’s economy, most of us are trying to</p>
-                        <form action="blogInner" method="GET">
-                            <button class="btn read-more" type="submit">Read More<span class="glyphicon glyphicon-chevron-right">
-                          </span></button>
-                        </form>
-
-                    </div>
 
 
                     <div class="posts col-xs-3">
                         <div class="most-read-posts">
                             <h3>most read posts</h3>
-                            <a href="">
-                                <p>Interviewing the Interviewer</p>
-                            </a>
-                            <a href="">
-                                <p>Great Leadership Can Prevent Monday Heart Attacks</p>
-                            </a>
-                            <a href="">
-                                <p>Your Managers' Report Card</p>
-                            </a>
+                            <%
+                                var sortedByNameDesc=sortByVisits(locals.blogs,'viewCounter')
+                                var max=3;
+                                if(sortedByNameDesc.length<max){
+                                    max=sortedByNameDesc.length;
+                                }
+                                for(i=0;i<max;i++){
+                                    %>
+                                         <a href="blogInner?blog=<%=sortedByNameDesc[i].blogID%>">
+                                            <p><%=sortedByNameDesc[i].blogTitle%></p>
+                                        </a>
+                                    <%
+                                }
+
+                            %>
+
+
+                            
+                           
                         </div>
-                        <div class="recent-posts">
+
+                        <div class="most-read-posts">
                             <h3>recent posts</h3>
-                            <a href="">
-                                <p>Interviewing the Interviewer</p>
-                            </a>
-                            <a href="">
-                                <p>Great Leadership Can Prevent Monday Heart Attacks</p>
-                            </a>
-                            <a href="">
-                                <p>Your Managers' Report Card</p>
-                            </a>
+                            <%
+                                var sortedByDateDesc=sortByDateDesc(locals.blogs,'effDate')
+                                var max=3;
+                                if(sortedByDateDesc.length<max){
+                                    max=sortedByDateDesc.length;
+                                }
+                                for(i=0;i<max;i++){
+                                    %>
+                                         <a href="blogInner?blog=<%=sortedByDateDesc[i].blogID%>">
+                                            <p><%=sortedByDateDesc[i].blogTitle%></p>
+                                        </a>
+                                    <%
+                                }
+
+                            %>
+
+
+                            
+                           
                         </div>
+                        
                     </div>
                 </div>
             </section>
 
-        </div>
+</div>
+
+<%   } 
+
+function sortByVisits(array, key) {
+    return array.sort(function(a, b) {
+        var x = parseInt(a[key]); var y = parseInt(b[key]);
+        return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+    });
+}
+
+
+function sortByDateDesc(array, key) {
+    return array.sort(function(a, b) {
+        var x = parseInt((a[key]).substring(0,4))+parseInt((a[key]).substring(5,7))*100+parseInt((a[key]).substring(8,10)); 
+        var y = parseInt((b[key]).substring(0,4))+parseInt((b[key]).substring(5,7))*100+parseInt((b[key]).substring(8,10)); 
+        console.log(x + ' vs '+ y);
+        return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+    });
+}
+
+
+  %>
