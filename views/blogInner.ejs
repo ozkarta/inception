@@ -6,6 +6,33 @@
                 <h1>BLOG INNER</h1>
             </section>
             <section>
+
+
+
+            <% if(locals.user!==undefined){  
+                console.dir(locals.user);
+                var userID="";
+                var userName=""
+
+                if(locals.user.facebook.id!==undefined){
+                    userID=locals.user.facebook.id;
+                    userName=locals.user.facebook.displayName;
+                }
+                if(locals.user.google.id!==undefined){
+                    userID=locals.user.google.id;
+                    userName=locals.user.google.displayName;
+                }
+                if(locals.user.linkedin.id!==undefined){
+                    userID=locals.user.linkedin.id;
+                    userName=locals.user.linkedin.displayName;
+                }
+
+            %>
+
+            <input type="hiden" id="username" value="<%=userName%>">
+            <input type="hiden" id="userid" value="<%=userID%>">
+            
+            <% } %>
                 <div class="container">
                     <div class="blog-content col-xs-12">
                         <h2><%=locals.blog.blogTitle%></h2>

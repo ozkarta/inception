@@ -3074,7 +3074,14 @@ module.exports = {
                                                 imgReply.src="images/user.svg";
                                                 var divReplyUserName=document.createElement('div');
                                                 divReplyUserName.className='user-name';
-                                                divReplyUserName.innerHTML='newuser'
+                                                //divReplyUserName.innerHTML='newuser'
+
+                                                if(document.getElementById('username')!==null){
+                                                   divReplyUserName.innerHTML=document.getElementById('username').value 
+                                               }else{
+                                                    divReplyUserName.innerHTML='anonimous';
+                                                  ///____________________
+                                               }
 
                                                 var divReplyComment=document.createElement('div');
                                                 divReplyComment.className="comment-text";
@@ -3147,14 +3154,19 @@ module.exports = {
                                         div2.className='thumbnail';
                                         div3.className='caption comment-body';
 
-
+                                        //console.dir(document.getElementById('username'));
 
                                         var userImage=document.createElement('img');
                                         userImage.src="images/user.svg";
 
                                         var divUserName=document.createElement('div');
                                         divUserName.className="user-name";
-                                        divUserName.innerHTML='ozman';  ///____________________
+                                        if(document.getElementById('username')!==null){
+                                           divUserName.innerHTML=document.getElementById('username').value 
+                                       }else{
+                                            divUserName.innerHTML='anonimous';
+                                          ///____________________
+                                       }
 
                                         var divComment=document.createElement('div');
                                         divComment.className="comment-text";
