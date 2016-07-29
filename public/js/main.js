@@ -1,5 +1,5 @@
 window.onload = function(e) {
-
+//console.log(e.target.location.pathname)
         //______________________________________________________SIGNIN
         var $signUpButton = $("#sign-up");
         var $closeX = $("#close");
@@ -52,11 +52,22 @@ window.onload = function(e) {
         }
     }
 
+
+
+
+     if((e.target.location.pathname==='/' )  ){
+        
+
+ //  searchis inputis gaketeba nobiluristvis
+
+
+     }
+
     //___________________________________________________________________________________________________________________________
 
     //_______________________________________________________________BLOG_INNER__________________________________________________
     if((e.target.location.pathname==='/blogInner' )  ){
-        
+        //  something yleoba
         var $hiddenLi = $(".blog-inner-social").slice(4);
         var $social = $('.more');
         var i = 0;
@@ -78,7 +89,50 @@ window.onload = function(e) {
 
 
         });
+         // twitter share --- START
+        var twitter = document.getElementById("twitter");
+        var postTitle = document.getElementById("inner-blog-title").innerHTML;
+        //console.log(postTitle);
+        twitter.onclick = function(e) {
+                e.preventDefault();
+                //console.log(escape(window.location.href));
+                // window.open("https://twitter.com/share?url=" + escape(window.location.href) + "&text=" + document.title, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+                window.open("https://twitter.com/share?url=" + escape(window.location.href) + "&text=" + postTitle + " " + escape(window.location.href) + ' @Uncoveredboss', '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');
+            }
+            // twitter share --- END
 
+        // facebook share --- START
+        var facebook = document.getElementById("facebook");
+
+        facebook.setAttribute("href", "https://www.facebook.com/sharer/sharer.php?u=" + window.location.href);
+        facebook.onclick = function(e) {
+            e.preventDefault();
+            window.open($(this).attr('href'), 'fbShareWindow', 'height=450, width=550, top=' + ($(window).height() / 2 - 275) + ', left=' + ($(window).width() / 2 - 225) + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
+            return false;
+        };
+        // facebook share --- END
+
+        //Linkedin share --- START
+        var linkedin = document.getElementById('linkedin');
+        linkedin.setAttribute("href", "https://www.linkedin.com/shareArticle?mini=true&url=" + window.location.href + "&title=" + postTitle);
+        // linkedin.setAttribute("href", "https://www.linkedin.com/shareArticle?mini=true&url=" + window.location.href + "&title=" + postTitle + "&summary=My%20favorite%20developer%20program&source=LinkedIn");
+
+        //Linkedin share --- END
+
+        // Pinterest share  --- START
+
+        //Pinterest Share --- End
+        // Social img Hover Effects --- START
+        // var socIcons = document.getElementsByClassName("blog-inner-social");
+                // console.log(socIcons);
+
+        // $('.blog-inner-social').hover(function (e){
+        //     console.dir(e.target.firstElementChild.firstElementChild);
+
+        // });
+        
+    
+    // Social img Hover Effects --- END
 
         //  Load   Comments  async  (+ AJAX)  Ozman
                                                    
@@ -105,6 +159,7 @@ window.onload = function(e) {
                                         var div3=document.createElement('div');
 
                                         div1.className='col-sm-9 comment-bar';
+                                        div1.setAttribute('id',comment.commentID);
                                         div2.className='thumbnail';
                                         div3.className='caption comment-body';
 
@@ -164,6 +219,7 @@ window.onload = function(e) {
                                             var divMainReply=document.createElement('div');
                                             if(comment.reply.length>0){
                                                 div1Reply.className='replied-comment';
+                                                div1Reply.setAttribute('id',comment.reply[i].commentID);
                                                 div2Reply.className='col-sm-12 comment-bar';
                                                 div3Reply.className='thumbnail';
 
@@ -3057,8 +3113,9 @@ module.exports = {
                 document.getElementById(id+'-re').setAttribute('style','')
                 document.getElementById(id+'-view').innerHTML='hide replies';
 
-
-
+                                        var replyGUID=guid();
+                                        var parentID=id.substring(5,id.length);
+                                        //alert(parentID);
 
                                             var div1Reply=document.createElement('div');
                                             var div2Reply=document.createElement('div');
@@ -3066,6 +3123,7 @@ module.exports = {
                                             var divMainReply=document.createElement('div');
                                             
                                                 div1Reply.className='replied-comment';
+                                                div1Reply.setAttribute('id',replyGUID);
                                                 div2Reply.className='col-sm-12 comment-bar';
                                                 div3Reply.className='thumbnail';
 
@@ -3075,11 +3133,14 @@ module.exports = {
                                                 var divReplyUserName=document.createElement('div');
                                                 divReplyUserName.className='user-name';
                                                 //divReplyUserName.innerHTML='newuser'
-
+                                                var userName=undefined;
+                                                var userID=undefined;
                                                 if(document.getElementById('username')!==null){
-                                                   divReplyUserName.innerHTML=document.getElementById('username').value 
+                                                   divReplyUserName.innerHTML=document.getElementById('username').value ;
+                                                   userName=document.getElementById('username').value ;
+                                                   userID=document.getElementById('userid').value ;
                                                }else{
-                                                    divReplyUserName.innerHTML='anonimous';
+                                                    divReplyUserName.innerHTML='anonimous';                                                    
                                                   ///____________________
                                                }
 
@@ -3130,6 +3191,29 @@ module.exports = {
 
                                                 //  AJAX   REQUEST TO THE SERVER
                                                 //______________________________
+                                                var jsonToPost='{"parentID":"'+parentID+'","commentID":"'+replyGUID+'","comment":"'+o.value+'","userName":"'+userName+'","userID":"'+userID+'"}'
+                        //alert(jsonToPost);
+                                               
+                                                xhr = new XMLHttpRequest();
+                                                    //var url = document.location.origin+'/find';
+                                                    var url='reply';
+                                                    //alert(url);
+                                                    xhr.open("POST", url, true);
+
+                                                    xhr.setRequestHeader("Content-type", "application/json");
+                                                    xhr.onreadystatechange = function () { 
+                                                        if (xhr.readyState == 4 && xhr.status == 200) {
+                                                            responseJSON = JSON.parse(xhr.responseText);  
+                                                               console.dir(responseJSON);   
+                                                               var counter=0;   
+                                                               responseJSON.forEach(function(item){
+                                                                counter=counter+1;
+                                                                  
+                                                                  //  Apply  insert    in HTML   if needed  
+                                                               })    
+                                                        }
+                                                    }
+                                                    xhr.send(jsonToPost);
 
             return false;
           }
@@ -3151,6 +3235,7 @@ module.exports = {
                                         var div3=document.createElement('div');
 
                                         div1.className='col-sm-9 comment-bar';
+                                        div1.setAttribute('id',commentID);
                                         div2.className='thumbnail';
                                         div3.className='caption comment-body';
 
@@ -3161,8 +3246,13 @@ module.exports = {
 
                                         var divUserName=document.createElement('div');
                                         divUserName.className="user-name";
+
+                                        var userName=undefined;
+                                        var userID=undefined;
                                         if(document.getElementById('username')!==null){
-                                           divUserName.innerHTML=document.getElementById('username').value 
+                                           divUserName.innerHTML=document.getElementById('username').value ;
+                                           userName=document.getElementById('username').value;
+                                           userID=document.getElementById('userid').value;
                                        }else{
                                             divUserName.innerHTML='anonimous';
                                           ///____________________
@@ -3230,6 +3320,31 @@ module.exports = {
                                         document.getElementById('commentSectionContainer').appendChild(newComment);
 
 
+                                          //  AJAX   REQUEST TO THE SERVER
+                                                //______________________________
+                                                var jsonToPost='{"commentID":"'+commentID+'","comment":"'+document.getElementById('newCommentID').value+'","userName":"'+userName+'","userID":"'+userID+'"}'
+                        //alert(jsonToPost);
+                                               
+                                                xhr = new XMLHttpRequest();
+                                                    //var url = document.location.origin+'/find';
+                                                    var url='comment';
+                                                    //alert(url);
+                                                    xhr.open("POST", url, true);
+
+                                                    xhr.setRequestHeader("Content-type", "application/json");
+                                                    xhr.onreadystatechange = function () { 
+                                                        if (xhr.readyState == 4 && xhr.status == 200) {
+                                                            responseJSON = JSON.parse(xhr.responseText);  
+                                                               console.dir(responseJSON);   
+                                                               var counter=0;   
+                                                               responseJSON.forEach(function(item){
+                                                                counter=counter+1;
+                                                                  
+                                                                  //  Apply  insert    in HTML   if needed  
+                                                               })    
+                                                        }
+                                                    }
+                                                    xhr.send(jsonToPost);
 
 
             return false;

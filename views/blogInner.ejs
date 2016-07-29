@@ -2,9 +2,9 @@
 <%if(locals.blog!==undefined){%>
  
  <div class="blog-inner">
-            <section class="blog-title">
+            <!-- <section class="blog-title">
                 <h1>BLOG INNER</h1>
-            </section>
+            </section> -->
             <section>
 
 
@@ -35,13 +35,13 @@
             <% } %>
                 <div class="container">
                     <div class="blog-content col-xs-12">
-                        <h2><%=locals.blog.blogTitle%></h2>
+                        <h2 id="inner-blog-title"><%=locals.blog.blogTitle%></h2>
                         <input type="hidden" id="blogIDContainer" value="<%=locals.blog.blogID%>">
                         <img class="stick img-thumbnail col-xs-6" src="images/stick.jpg">
                         <div class="social-icons">
                             <ul>
                                 <li class="he blog-inner-social">
-                                    <a href="">
+                                    <a >
                                         <div class="join-line-icon">
                                             <img src="images/heart-outline.svg">
                                             <div class="icon-line"></div>
@@ -49,7 +49,7 @@
                                     </a>
                                 </li>
                                 <li class="fb blog-inner-social">
-                                    <a href="">
+                                    <a  id="facebook">
                                         <div class="join-line-icon">
                                             <img src="images/facebook.svg">
                                             <div class="icon-line"></div>
@@ -57,7 +57,7 @@
                                     </a>
                                 </li>
                                 <li class="tw blog-inner-social">
-                                    <a href="">
+                                    <a  id="twitter">
                                         <div class="join-line-icon">
                                             <img src="images/twitter.svg">
                                             <div class="icon-line"></div>
@@ -65,7 +65,7 @@
                                     </a>
                                 </li>
                                 <li class="in blog-inner-social">
-                                    <a href="">
+                                    <a  id="linkedin">
                                         <div class="join-line-icon">
                                             <img src="images/linkedin.svg">
                                             <div class="icon-line"></div>
@@ -73,7 +73,7 @@
                                     </a>
                                 </li>
                                 <li class="re blog-inner-social">
-                                    <a href="">
+                                    <a id="reddit">
                                         <div class="join-line-icon">
                                             <img src="images/reddit-big-logo.svg">
                                             <div class="icon-line"></div>

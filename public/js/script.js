@@ -53,32 +53,35 @@
 //
 // });
 
+
+
+
 window.onload = function(e) {
     alert('loaded script.js');
     /*BLOG --- hover effect on Read More glyphicon(arrow) ---- Start*/
-    var $blogButton = $('.read-more');
-    var $readMoreArrow = $(".glyphicon-chevron-right");
+    // var $blogButton = $('.read-more');
+    // var $readMoreArrow = $(".glyphicon-chevron-right");
 
-    $blogButton.hover(function() {
-        $readMoreArrow.css("color", "#3a9fe5");
-    })
+    // $blogButton.hover(function() {
+    //     $readMoreArrow.css("color", "#3a9fe5");
+    // })
 
-    $blogButton.mouseout(function() {
-            $readMoreArrow.css("color", "#d3d3d3");
-        })
-        /*BLOG --- hover effect on Read More glyphicon(arrow) ---- End*/
+    // $blogButton.mouseout(function() {
+    //         $readMoreArrow.css("color", "#d3d3d3");
+    //     })
+    //     /*BLOG --- hover effect on Read More glyphicon(arrow) ---- End*/
 
-    /*BLOG --- Most Read and Recent posts fixed when it reaches top of the page ---- Start*/
-    var $window = $(window),
-        $stickyEl = $('.posts'),
-        elTop = $stickyEl.offset().top - 30;
+    // BLOG --- Most Read and Recent posts fixed when it reaches top of the page ---- Start
+    // var $window = $(window),
+    //     $stickyEl = $('.posts'),
+    //     elTop = $stickyEl.offset().top - 30;
 
-    $window.scroll(function() {
-        $stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
-    });
-    /*BLOG --- Most Read and Recent posts fixed when it reaches top of the page ---- End*/
+    // $window.scroll(function() {
+    //     $stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
+    // });
+    // /*BLOG --- Most Read and Recent posts fixed when it reaches top of the page ---- End*/
 
-    /*SignIn/SignUp Pop-up ---- Start*/
+    // /*SignIn/SignUp Pop-up ---- Start*/
 
     var $signUpButton = $("#sign-up");
     var $closeX = $("#close");

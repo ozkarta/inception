@@ -9,7 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap-social.css">
     <link rel="stylesheet" type="text/css" href="/stylesheets/styles.css">
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css' type='text/css' media='all' />
 
 </head>
 
@@ -60,7 +62,7 @@
                                             }else{
                                                 %>
                                                     <li>
-                                                          <button id='sign-up' type="button" class="btn btn-md sign-in">Sign In/Sign Up
+                                                          <button id='sign-up' type="button" class="btn btn-md sign-in">Sign In
                                                           </button>
                                                       </li>
                                                 <%
@@ -68,7 +70,7 @@
                                         }else{
                                             %>
                                                 <li>
-                                                      <button id='sign-up' type="button" class="btn btn-md sign-in">Sign In/Sign Up
+                                                      <button id='sign-up' type="button" class="btn btn-md sign-in">Sign In
                                                       </button>
                                                   </li>
                                             <%
@@ -90,17 +92,22 @@
                     <div class="sign-up-modal">
                         <div class="sign-up-social">
                             <div class="sign-up-title col-sm-12">
-                                <h3>Signin/Login on UncoveredBoss With:</h3>
+                                <h3>Sign In On UncoveredBoss With:</h3>
                                 <span id="close">&#10006;</span>
                             </div>
                             
-                            <a href="linkedin">
-                                <img src="./images/linkedin-signin.png" alt="">
-                             </a> 
-                             <a href="facebook">
-                                <img src="./images/facebook-signin.png" alt="">
-                             </a>    
-                            <img src="./images/google-signin.png" alt="">
+                            <a class="btn btn-block btn-social btn-linkedin">
+                                <span class="fa fa-linkedin"></span>
+                                                Sign in with Linkedin
+                            </a>
+                            <a class="btn btn-block btn-social btn-facebook">
+                                <span class="fa fa-facebook"></span>
+                                                Sign in with Facebook
+                            </a>
+                            <a class="btn btn-block btn-social btn-google">
+                                <span class="fa fa-google"></span>
+                                                Sign in with Google
+                            </a>
                             <div class="sign-in-warning">
                                 <img src="./images/warning.svg" alt="">
                                 <div class="sign-in-warning-text">
@@ -120,7 +127,7 @@
             <footer>
                 <div class="container">
                     <div class="icons col-sm-6 col-xs-12">
-                        <h4>join the conversation</h4>
+                        <h4>Join The Conversation</h4>
                         <ul>
                             <li>
                                 <a href=""><img src="/images/facebook.svg"></a>
@@ -162,5 +169,6 @@
 <!-- <script src="./js/script.js"></script> -->
 <!-- <script src="./js/searchSuggestions.js"></script> -->
 <script src="./js/signin.js"></script>
+<script src="./js/main.js"></script>
 
 </html>

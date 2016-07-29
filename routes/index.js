@@ -377,7 +377,7 @@ new dbInit();
 
 	
 
-	this.router.get('/addmanager',isLoggedIn, function(req, res, next) {
+	this.router.get('/addmanager', function(req, res, next) {
 
 		console.log('add manager   was requested  ');		
 		myRouter.prototype.addManagerPreRender(req,_app,function(){
@@ -415,6 +415,20 @@ new dbInit();
 			//console.dir(response);
 			res.send(response);
 		})
+	});
+	//   Must Be Finished  :)))  oz Man
+	this.router.post('/reply',function(req,res,nect){
+		
+		console.dir(req.body);
+
+
+	});
+
+	this.router.post('/comment',function(req,res,nect){
+		
+		console.dir(req.body);
+
+
 	});
 
 
