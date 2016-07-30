@@ -1,15 +1,34 @@
    var dbInit=require('../models/initDataBase.js');
+
+   	var dbConfig = require('../models/db.js');
+   	var mongoose = require('mongoose');
+	mongoose.connect(dbConfig.url,function(err){
+		if(!err){
+			console.log('connected to mongo');
+			new dbInit();
+		}else{
+			console.dir(err);
+		}
+		
+	});
+
+
+
    	var company=require('../models/companies.js');
+   	//var company=require('../models/companies.js');
    	var manager=require('../models/manager.js');
    	var rating=require('../models/ratings.js');
-   	
+   	var User=require('../models/users.js');
    	var blog=require('../models/blog.js');
 
-new dbInit();
+
 
 
    myRouter=function(_app,_passport){
+
    	
+   	
+	
 
 	this.app=_app;
 	this.passport=_passport;
@@ -19,21 +38,20 @@ new dbInit();
 	var self=this;
 
 
-	this.dbConfig = require('../models/db.js');
+	
 
 	fbConfig=require('../models/fb.js');
 	//this.googleConfig=require('../models/google.js');
 	this.linkedinConfig=require('../models/linkedin.js');
 	this.googleConfig=require('../models/google.js');
 
-	this.mongoose = require('mongoose');
-	this.mongoose.connect(this.dbConfig.url);
+	
 
 	var facebook_strategy=require("passport-facebook");
 	var linkedin_strategy=require("passport-linkedin");
 	var google_strategy=  require("passport-google-oauth");
 
-	var User=require('../models/users.js');
+	
 	this.passport.serializeUser(function(user, done) {
 		  done(null, user._id);
 		});
@@ -275,6 +293,7 @@ new dbInit();
 
 		console.log('index was requested  ');		
 		myRouter.prototype.topRankPreRender(req,_app,function(managerArray){
+				console.log('manager array is ....')
 				console.dir(managerArray);
 				var page=1;
 				if(req.query.page!==undefined){
@@ -755,7 +774,8 @@ myRouter.prototype.topRankPreRender=function(req,app,callback){
 			// 		callback(managerRes);
 			// 	}
 			// })
-
+			console.log('manager is ....');
+			console.dir(myRouter.manager);
 
 			app.set('layout','layouts/all_pages_layout');
 			console.log('@@@@@@@@@@@@@')

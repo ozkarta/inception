@@ -6,9 +6,9 @@ var blog=require('../models/blog.js');
 var comment=require('../models/comments.js');
 
 module.exports=function(){
-	console.log('db Initialization starts there')
-	addCompanies();
-	addManagers();
+	//console.log('db Initialization starts there')
+	//addCompanies();
+	//addManagers();
 	//addComments(); //blog
 	//addRatingsManual();
 }
@@ -17,20 +17,29 @@ function addCompany(id,name){
 	//console.dir(company);
 	company.findOne({'name':name},function(err,companyResult){
 		if(err){
+			console.dir(err);
 			return (err);
 		}else{
+			//console.dir(companyResult);
 			if(!companyResult){
 				var man=new company();
 				man.id=id;
 				man.name=name;
 				man.save(function(err) {
-							              if (err)
-							                throw err;
+							              if (err){
+							              	console.dir(err);
+							              	throw err;
+							              }else{
+							              	console.log('added company ..  ');
+							              }
 							 
 							              // if successful, return the new user
-							              console.log('added company ..  ' +man.id);
+							              
 							              //return done(null, man);
 							            });
+			}else{
+				//console.dir(companyResult);
+				//console.log('exists');
 			}
 		}
 
@@ -53,7 +62,7 @@ function addManager(companyID,possition,fullName,email,linkedin,department,workm
 				//newManager.rating=undefined;
 				company.findOne({'id':companyID},'name',function(err,companyResult){
 					console.log('______________________')
-					console.log(companyResult.name);
+					//console.log(companyResult.name);
 					if(err){
 						newManager.save(function(err){
 							if(err){
