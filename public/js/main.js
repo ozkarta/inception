@@ -119,9 +119,16 @@ window.onload = function(e) {
 
         //Linkedin share --- END
 
-        // Pinterest share  --- START
+        // Reddit share  --- START
+        var reddit = document.getElementById("reddit");
+        reddit.setAttribute("href", "https://www.reddit.com/submit");
+        reddit.onclick = function(e) {
+            e.preventDefault();
+            window.location = '//www.reddit.com/submit?url=' + encodeURIComponent(window.location)
+            return false;
+        };
 
-        //Pinterest Share --- End
+        //Reddit Share --- End
         // Social img Hover Effects --- START
         // var socIcons = document.getElementsByClassName("blog-inner-social");
                 // console.log(socIcons);
@@ -276,6 +283,25 @@ window.onload = function(e) {
 
 
 
+                                       
+                                        
+
+
+                                        div2.appendChild(div3);
+                                        div1.appendChild(div2);
+
+
+
+                                        document.getElementById('commentSectionContainer').appendChild(div1);
+
+
+                                        
+
+
+                                   })  
+
+                                   //newComment  
+
                                         var writeCommentSection=document.createElement('div');
                                         writeCommentSection.className='write-comment col-sm-9';
 
@@ -294,21 +320,8 @@ window.onload = function(e) {
 
                                         inputDiv.appendChild(textInput);
                                         writeCommentSection.appendChild(inputDiv);
-                                        
 
-
-                                        div2.appendChild(div3);
-                                        div1.appendChild(div2);
-
-
-
-                                        document.getElementById('commentSectionContainer').appendChild(div1);
-
-
-                                        document.getElementById('commentSectionContainer').appendChild(writeCommentSection);
-
-
-                                   })    
+                                   document.getElementById('commentSectionContainer').appendChild(writeCommentSection);
                             }
                         }
                         xhr.send(jsonToPost);
@@ -3206,11 +3219,11 @@ module.exports = {
                                                             responseJSON = JSON.parse(xhr.responseText);  
                                                                console.dir(responseJSON);   
                                                                var counter=0;   
-                                                               responseJSON.forEach(function(item){
-                                                                counter=counter+1;
+                                                               // responseJSON.forEach(function(item){
+                                                               //  counter=counter+1;
                                                                   
-                                                                  //  Apply  insert    in HTML   if needed  
-                                                               })    
+                                                               //    //  Apply  insert    in HTML   if needed  
+                                                               // })    
                                                         }
                                                     }
                                                     xhr.send(jsonToPost);
@@ -3309,15 +3322,7 @@ module.exports = {
 
 
 
-                                        document.getElementById('newCommentID').value='';
-                                        document.getElementById('commentSectionContainer').removeChild(newComment); 
-
-
-                                        document.getElementById('commentSectionContainer').appendChild(div1);
-
-                                        //console.dir(document.getElementById('newCommentID'));
-                                        
-                                        document.getElementById('commentSectionContainer').appendChild(newComment);
+                                       
 
 
                                           //  AJAX   REQUEST TO THE SERVER
@@ -3338,14 +3343,27 @@ module.exports = {
                                                             responseJSON = JSON.parse(xhr.responseText);  
                                                                console.dir(responseJSON);   
                                                                var counter=0;   
-                                                               responseJSON.forEach(function(item){
-                                                                counter=counter+1;
+                                                               // responseJSON.forEach(function(item){
+                                                               //  counter=counter+1;
                                                                   
-                                                                  //  Apply  insert    in HTML   if needed  
-                                                               })    
+                                                               //    //  Apply  insert    in HTML   if needed  
+                                                               // })    
                                                         }
                                                     }
                                                     xhr.send(jsonToPost);
+
+
+
+                                                    //  arrange screen after  data is sent to server
+                                                    document.getElementById('newCommentID').value='';
+                                                    document.getElementById('commentSectionContainer').removeChild(newComment); 
+
+
+                                                    document.getElementById('commentSectionContainer').appendChild(div1);
+
+                                                    //console.dir(document.getElementById('newCommentID'));
+                                                    
+                                                    document.getElementById('commentSectionContainer').appendChild(newComment);
 
 
             return false;

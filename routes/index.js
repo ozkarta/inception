@@ -234,14 +234,47 @@ this.passport.use('google',new google_strategy({
   	console.log('_________________________GOOGLE_______________________________')
   	console.dir(profile);
     // asynchronous verification, for effect...
-    process.nextTick(function () {
-      
-      // To keep the example simple, the user's Google profile is returned to
-      // represent the logged-in user.  In a typical application, you would want
-      // to associate the Google account with a user record in your database,
-      // and return that user instead.
-      return done(null, profile);
-    });
+     process.nextTick(function() {
+							     
+							      // find the user in the database based on their facebook id
+							      User.findOne({ 'google.id' : profile.id }, function(err, user) {
+							 
+							        // if there is an error, stop everything and return that
+							        // ie an error connecting to the database
+							        if (err)
+							          return done(err);
+							 
+							          // if the user is found, then log them in
+							          if (user) {
+							            return done(null, user); // user found, return that user
+							          } else {
+							            // if there is no user found with that facebook id, create them
+							            var newUser = new User();
+							            //console.dir(newUser);
+							 		
+							            // set all of the facebook information in our user model
+							            newUser.google.id    = profile.id; // set the users facebook id                 
+							           // newUser.linkedin.access_token = access_token; // we will save the token that facebook provides to the user                    
+							            //newUser.facebook.firstName  = profile.name.givenName;
+							            //newUser.facebook.lastName = profile.name.familyName; // look at the passport user profile to see how names are returned
+							            //newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+							 			newUser.google.displayName=profile.displayName;
+
+							            // save our user to the database
+
+
+							            newUser.save(function(err) {
+							              if (err)
+							                throw err;
+							 
+							              // if successful, return the new user
+							              return done(null, newUser);
+							            });
+							         } 
+							      });
+							    });
+
+    
   }
 ));
 
@@ -254,7 +287,8 @@ this.passport.use('google',new google_strategy({
 	this.router.get('/google', 
 		  this.passport.authenticate('google',{ scope: 
 			  	[ 'https://www.googleapis.com/auth/plus.login',
-			  	, 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
+			  	, 'https://www.googleapis.com/auth/plus.profile.emails.read',
+			  	'https://www.googleapis.com/auth/userinfo.profile' ] }
 		));
 
 	
@@ -281,14 +315,28 @@ this.passport.use('google',new google_strategy({
 	this.router.get( '/google/callback', 
 	    this.passport.authenticate( 'google', { 
 	        successRedirect: '/',
-	        failureRedirect: '/err'
+	        failureRedirect: '/error'
 	}));
+
+
+	// this.router.get( '/google/callback', function(req,res,next){
+
+	// 				//console.dir(req);
+	// 				//console.log('autenticating ......')
+	// 				console.log('passport is .....................')
+	// 				console.dir(self.passport);
+	// 				self.passport.authenticate( 'google', { 
+	// 			        successRedirect: '/',
+	// 			        failureRedirect: '/error'
+	// 		});
+	//     });
+	
 
 
 	this.router.get( '/error', function(req,res,next){
 	    res.render('error');
 	}
-	});
+	);
 
 	// this.router.get( '/google/callback',function(req,res,next){
 	// 		console.log('+++++++++++++++google callback +++++++++++++++++++')
@@ -562,7 +610,7 @@ this.passport.use('google',new google_strategy({
 		blog.findOne({'blogID':req.body.blogID},function(err,blogToComment){
 
 					var newComment=new comment();
-					newComment.comentID=req.body.commentID;
+					newComment.commentID=req.body.commentID;
 
 					if(req.body.userName!=='undefined'){
 						newComment.userID=req.body.userID;
