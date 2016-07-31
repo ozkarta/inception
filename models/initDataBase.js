@@ -6460,24 +6460,19 @@ function addManagers(){
 	addManager('6285','Sr. Manager ' , 'Tricia Engel-Bethel' , '' , 'https://www.linkedin.com/in/triciaengel','Global Talent Acquisition','franciscoj.prieto@gmail.com')
 	addManager('6285','Director' , 'Elizabeth Henin' , '' , 'https://www.linkedin.com/in/elizabethheninhomes','Resale Operations','franciscoj.prieto@gmail.com')
 	addManager('589','Senior Associate' , 'Plator Ulqinaku' , '' , 'https://www.linkedin.com/pub/plator-ulqinaku/7/b82/702','Risk Assurance','rj.martinez@ymail.com')
-	addManager('6286','Zone Sales Leader' , 'Carlos Canizares' , 'Carlos.Canizares@pepsico.com' , '','Sales','amjarquin18@gmail.com')
-	addManager('6287','' , '' , '' , '','','')
+	addManager('6286','Zone Sales Leader' , 'Carlos Canizares' , 'Carlos.Canizares@pepsico.com' , '','Sales','amjarquin18@gmail.com')	
 	addManager('1298','Actuary' , 'Daniel Collins' , '' , 'https://www.linkedin.com/profile/view?id=432816025&trk=recs-given-main-name','Actuarial','rwcbeaman@gmail.com')
 	addManager('6288','Loss Mitigation Manager' , 'Kelley Emmons' , 'Kelley.emmons@chase.com' , 'https://www.linkedin.com/pub/kelley-emmons/76/30a/5a0','Loss Mitigation','ximena_v@hotmail.com')
 	addManager('589','Director' , 'Prasad Naga' , '' , 'https://www.linkedin.com/in/prasadcnaga','Risk Assurance','rj.martinez@ymail.com')
 	addManager('2406','Financial Analyst Senior Staff' , 'Deborah (Debbie) McCann' , '' , 'https://www.linkedin.com/profile/view?id=62562009&authType=NAME_SEARCH&authToken=5Kky&locale=en_US&trk=tyah&trkInfo=clickedVertical%3Amynetwork%2CclickedEntityId%3A62562009%2CauthType%3ANAME_SEARCH%2Cidx%3A1-1-1%2CtarId%3A1438189789052%2Ctas%3Adebora','Corporate Program Finance','nataliechristinesoler@gmail.com')
-	addManager('6289','' , '' , '' , '','','')
 	addManager('1306','Vice President' , 'Loretta Singh' , '' , 'https://www.linkedin.com/pub/loretta-singh/14/778/852','Finance','andreasagarrido1987@gmail.com')
 	addManager('1537','Vice President' , 'Brian Kohler' , '' , 'https://www.linkedin.com/in/bskohler','Finance','andreasagarrido1987@gmail.com')
-	addManager('6290','' , '' , '' , '','','')
 	addManager('586','Director' , 'Thalia Rich' , '' , 'https://www.linkedin.com/pub/thalia-rich/16/203/480','Consulting','andreasagarrido1987@gmail.com')
 	addManager('1243','Director' , 'Michael Sheehan' , '' , 'https://www.linkedin.com/in/michaelgsheehan','Global Costing & Analytics','admin')
 	addManager('1243','Vice President' , 'James Malabanan' , '' , 'https://www.linkedin.com/pub/james-r-malabanan/12/7b9/884','Global Costing & Analytics','andreasagarrido1987@gmail.com')
 	addManager('1243','Vice President' , 'Jonathan Lee' , '' , 'https://www.linkedin.com/pub/jonathan-lee/13/366/392','Finance','andreaagarrido@knights.ucf.edu')
-	addManager('6291','' , '' , '' , '','','')
 	addManager('1298','Actuary' , 'Dan Collins' , 'daniel.collins0001@libertymutual.com' , '','Actuarial','rwcbeaman@gmail.com')
 	addManager('2406','Technical Writer Sr.' , 'Andre Evans' , 'andre.evans@lmco.com' , '','Technical Data','spr07nupe@hotmail.com')
-	addManager('6301','' , '' , '' , '','','')
 	addManager('215','vp' , 'andrea smithson' , 'asmithson@gmail.com' , '','finance','andreasagarrido1987@gmail.com')
 	addManager('215','VP' , 'Andrea' , 'andre1234@gmail.com' , '','Finance','andreasagarrido1987@gmail.com')
 
@@ -6511,9 +6506,9 @@ function addComments(){
 	newblog.blogID=guid();
 	newblog.commentID=guid();
 	newblog.userID	='1818474158373805';
-	newblog.blogTitle='Interviewing the Interviewer (dynamic2)';
+	newblog.blogTitle='Interviewing the Interviewer (dynamic 1 for test)';
 	newblog.blogInnerHTML='We have all gone through the arduous process of job hunting. In today’s economy, most of us are trying to find that job with greater benefits, or one that pays more money. The majority of us have walked into an interview with an “I will do whatever it takes to get this job” mentality. This mentality may work for those who are entry level, or those desperately wanting to leave a sinking ship and have mortgage payments to think about. However, this mindset will get you nowhere if you are truly looking for the best fit and the closest approximation to the “perfect” job for you. The reality is that there is no such thing as the “perfect” job, company or career. However, we can control making the best out of any situation we are in, and turning it to our advantage. The most important asset you possess is a good attitude. It may sound corny, but it is true. You need to have a good attitude; this attitude will help your self-esteem, your focus, people’s perception of you, and eventually will get to where you are looking to go. The attitude that you must have is the following: “I am willing to do this job because this job will help me to get [next step in the corporate ladder] until I get to “X”. Your particular “X” can be the CEO, it might be FX Trader Extraordinaire, it might be entrepreneur. But once you have this mantra seared into the back of your mind, you will not be as miserable in any job because you will see the longer term. This attitude will also help you to have the self-assurance you need when interviewing for a new job: not only going to the interview to try to get the job but to interview your interviewer as well. Yesss!!!! Interviewing your interviewer is one of the most essential components of your interview process. Most interviewees forget this and ask technical or salary and benefit questions and forget about asking questions such as: “could you please tell me more about the company culture?” You can frame these questions by stating “I read online the company stands by….” “Or goes by this mission…” “can you please tell me more about this and how you think our team fits into it?” “What do you think is one of the main challenges for a person joining this team?” “You mentioned you have been in the company for 10 years – what do you like most about the company?” Hope you are getting the idea…';
-	newblog.viewCounter='0';
+	newblog.viewCounter='3';
 	//newblog.userName
 	//newblog.mail	
 	newblog.effDate	= getDate();
@@ -6536,7 +6531,7 @@ function addComments(){
 	//newComment2.newComment1.userName
 	//newComment2.mail	
 	newComment2.effDate	=getDate();
-	newComment2.comment	='Thanks dude,  that\'s inspiration for me  and I\'ll  try  to make this web site better and better  al time, Thanks again bitch'
+	newComment2.comment	='Thanks dude,  that\'s inspiration for me  and I\'ll  try  to make this web site better and better  al time, Thanks again'
 
 	newComment1.reply.push(newComment2);
 	newblog.comments.push(newComment1);

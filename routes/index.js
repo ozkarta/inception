@@ -21,7 +21,7 @@
    	var User=require('../models/users.js');
    	var blog=require('../models/blog.js');
 
-
+   	var comment=require('../models/comments.js');
 
 
    myRouter=function(_app,_passport){
@@ -49,7 +49,7 @@
 
 	var facebook_strategy=require("passport-facebook");
 	var linkedin_strategy=require("passport-linkedin");
-	var google_strategy=  require("passport-google-oauth");
+	var google_strategy=  require("passport-google-oauth2");
 
 	
 	this.passport.serializeUser(function(user, done) {
@@ -113,11 +113,15 @@
 	this.passport.use(new linkedin_strategy({
 			    consumerKey: this.linkedinConfig.consumerKey,
 			    consumerSecret: this.linkedinConfig.consumerSecret,
-			    callbackURL: this.linkedinConfig.callbackURL
+			    callbackURL: this.linkedinConfig.callbackURL,
+			    profileFields: ['id', 'first-name', 'last-name', 'email-address', 'headline','specialties','positions','public-profile-url','picture-url']
 			  },
 			  function(token, tokenSecret, profile, done) {
+
+			  	console.dir(profile);
 			  	console.log('linkedin  response is ____________________________________________________________________________________________')
-			  	//console.dir(profile);
+			  	console.dir(profile._json.positions);
+			  	console.dir(profile.emailaddress);
 			  	 process.nextTick(function() {
 							     
 							      // find the user in the database based on their facebook id
@@ -214,7 +218,32 @@
 // 			  }
 // 			));
 
-
+this.passport.use('google',new google_strategy({
+    clientID:     this.googleConfig.googleClientId,
+    clientSecret: this.googleConfig.googleAppSecret,
+    //NOTE :
+    //Carefull ! and avoid usage of Private IP, otherwise you will get the device_id device_name issue for Private IP during authentication
+    //The workaround is to set up thru the google cloud console a fully qualified domain name such as http://mydomain:3000/ 
+    //then edit your /etc/hosts local file to point on your private IP. 
+    //Also both sign-in button + callbackURL has to be share the same url, otherwise two cookies will be created and lead to lost your session
+    //if you use it.
+    callbackURL: this.googleConfig.callbackUrl,
+    passReqToCallback   : true
+  },
+  function(request, accessToken, refreshToken, profile, done) {
+  	console.log('_________________________GOOGLE_______________________________')
+  	console.dir(profile);
+    // asynchronous verification, for effect...
+    process.nextTick(function () {
+      
+      // To keep the example simple, the user's Google profile is returned to
+      // represent the logged-in user.  In a typical application, you would want
+      // to associate the Google account with a user record in your database,
+      // and return that user instead.
+      return done(null, profile);
+    });
+  }
+));
 
 	this.router.get('/facebook', 
 		  this.passport.authenticate('facebook', { scope : 'email' }
@@ -223,14 +252,16 @@
 		  this.passport.authenticate('linkedin'
 		));
 	this.router.get('/google', 
-		  this.passport.authenticate('google'
+		  this.passport.authenticate('google',{ scope: 
+			  	[ 'https://www.googleapis.com/auth/plus.login',
+			  	, 'https://www.googleapis.com/auth/plus.profile.emails.read' ] }
 		));
 
 	
 	this.router.get('/facebook/callback',
 		  this.passport.authenticate('facebook', {
 		    successRedirect : '/',
-		    failureRedirect : '/error'
+		    failureRedirect : '/about'
 		  })
 		);
 
@@ -240,12 +271,29 @@
 			    failureRedirect : '/error'
 			  })
 			);
-	this.router.get('/google/callback',
-			  this.passport.authenticate('google', {
-			    successRedirect : '/',
-			    failureRedirect : '/error'
-			  })
-			);
+	// this.router.get('/google/callback',
+	// 		  this.passport.authenticate('google', {
+	// 		    successRedirect : '/',
+	// 		    failureRedirect : '/error'
+	// 		  })
+	// 		);
+
+	this.router.get( '/google/callback', 
+	    this.passport.authenticate( 'google', { 
+	        successRedirect: '/',
+	        failureRedirect: '/err'
+	}));
+
+
+	this.router.get( '/error', function(req,res,next){
+	    res.render('error');
+	}
+	});
+
+	// this.router.get( '/google/callback',function(req,res,next){
+	// 		console.log('+++++++++++++++google callback +++++++++++++++++++')
+	// });
+	
 
 
 	
@@ -440,12 +488,110 @@
 		
 		console.dir(req.body);
 
+		blog.findOne({'blogID':req.body.blogID},function(err,blogToComment){
+			for(i=0;i<blogToComment.comments.length;i++){
+				if(blogToComment.comments[i].commentID==req.body.parentID){
+						
+					var workingComment=blogToComment.comments[i];
+
+					var newComment=new comment();
+					newComment.comentID=req.body.commentID;
+
+					if(req.body.userName!=='undefined'){
+						newComment.userID=req.body.userID;
+					}else{
+						newComment.userID=guid();
+					}
+
+					//newComment.userID=req.body.userID;
+					if(req.body.userName!=='undefined'){
+						newComment.userName=req.body.userName;
+					}else{
+						newComment.userName='anonimous'
+					}					
+					newComment.effDate=getDate();
+					newComment.comment=req.body.comment;
+					newComment.reply=[];
+
+					workingComment.reply.push(newComment);
+					blogToComment.comments.set(i,workingComment);
+					//blogToComment.comments[i].reply[blogToComment.comments[i].reply.length-1].isNew;
+					//blogToComment.comments[i].reply.set(blogToComment.comments[i].reply.length-1,newComment);
+					//blogToComment.markModified('comments');
+					blogToComment.save(function(err,saved){
+						if(!err){
+							console.log('saved');
+							for(j=0;j<blogToComment.comments.length;j++){
+								if(blogToComment.comments[j].commentID==req.body.parentID){
+									//console.dir(blogToComment.comments[j].reply[1]);
+									res.send({'result':'1'})
+								}
+							}
+						}else{
+							//console.log('err');
+							//console.dir(err);
+							res.send({'result':'-1'})
+						}
+					})
+				}
+			}
+		})
+
+
+
+					// newComment.comentID=req.body.commentID;
+
+					// newComment.userID=req.body.userID;
+					// if(req.body.userName!==undefined){
+					// 	newComment.userName=req.body.userName;
+					// }else{
+					// 	newComment.userName='anonimous'
+					// }
+					
+					// newComment.effDate=getDate();
+					// newComment.comment=req.body.comment;
+					// newComment.reply=[];
+
 
 	});
 
 	this.router.post('/comment',function(req,res,nect){
 		
 		console.dir(req.body);
+
+		blog.findOne({'blogID':req.body.blogID},function(err,blogToComment){
+
+					var newComment=new comment();
+					newComment.comentID=req.body.commentID;
+
+					if(req.body.userName!=='undefined'){
+						newComment.userID=req.body.userID;
+					}else{
+						newComment.userID=guid();
+					}
+
+					//newComment.userID=req.body.userID;
+					if(req.body.userName!=='undefined'){
+						newComment.userName=req.body.userName;
+					}else{
+						newComment.userName='anonimous'
+					}					
+					newComment.effDate=getDate();
+					newComment.comment=req.body.comment;
+					newComment.reply=[];
+
+					blogToComment.comments.push(newComment);
+
+					blogToComment.save(function(err,savedBlog){
+						if(!err){
+							res.send({'result':'1'})
+						}else{							
+							res.send({'result':'-1'})
+						}
+					})
+
+
+		})
 
 
 	});
@@ -963,6 +1109,23 @@ function guid() {
 }
 
 
+function getDate(){
+	var currentdate = new Date(); 
+    var month=''
+    if((''+currentdate.getMonth()).length==1){
+        month='0'+(currentdate.getMonth()+1);
+    }else{
+        month=currentdate.getMonth();;
+    }
 
+    var day=''
+    if((''+currentdate.getDate()).length==1){
+        day='0'+currentdate.getDate();
+    }else{
+        day=currentdate.getDate();
+    }
+    var datetime = currentdate.getFullYear()+'-'+month+'-'+day;
+    return datetime;
+}
 
 module.exports.myRouter=myRouter;

@@ -3191,7 +3191,7 @@ module.exports = {
 
                                                 //  AJAX   REQUEST TO THE SERVER
                                                 //______________________________
-                                                var jsonToPost='{"parentID":"'+parentID+'","commentID":"'+replyGUID+'","comment":"'+o.value+'","userName":"'+userName+'","userID":"'+userID+'"}'
+                                                var jsonToPost='{"blogID":"'+document.getElementById('blogIDContainer').value+'","parentID":"'+parentID+'","commentID":"'+replyGUID+'","comment":"'+o.value+'","userName":"'+userName+'","userID":"'+userID+'"}'
                         //alert(jsonToPost);
                                                
                                                 xhr = new XMLHttpRequest();
@@ -3322,7 +3322,8 @@ module.exports = {
 
                                           //  AJAX   REQUEST TO THE SERVER
                                                 //______________________________
-                                                var jsonToPost='{"commentID":"'+commentID+'","comment":"'+document.getElementById('newCommentID').value+'","userName":"'+userName+'","userID":"'+userID+'"}'
+
+                                                var jsonToPost='{"blogID":"'+document.getElementById('blogIDContainer').value+'","commentID":"'+commentID+'","comment":"'+document.getElementById('newCommentID').value+'","userName":"'+userName+'","userID":"'+userID+'"}'
                         //alert(jsonToPost);
                                                
                                                 xhr = new XMLHttpRequest();
