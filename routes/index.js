@@ -455,13 +455,17 @@ this.passport.use('google',new google_strategy({
 		console.log('index was requested  ');		
 		myRouter.prototype.blogInnerPreRender(req,_app,function(blogResult){
 
-				var currentBlog=undefined;
-				for(i=0;i<blogResult.length;i++){
-					if(blogResult[i].blogID===req.query.blog){
-						currentBlog=blogResult[i];
-					}
-				}
-				res.render('blogInner',{locals:{'user':req.user,'blog':currentBlog,'blogArray':blogResult}});
+				// var currentBlog=undefined;
+				// for(i=0;i<blogResult.length;i++){
+				// 	if(blogResult[i].blogID===req.query.blog){
+				// 		currentBlog=blogResult[i];
+				// 	}
+				// }
+
+				blog.find({},function(err,blogArray){
+					res.render('blogInner',{locals:{'user':req.user,'blog':blogResult,'blogArray':blogArray}});
+				})
+				
 		})
 
 		
@@ -534,6 +538,25 @@ this.passport.use('google',new google_strategy({
 			res.send(response);
 		})
 	});
+
+
+	this.router.get('/searchResult',function(req,res,next){
+
+		    
+
+			var it=req.query.name;
+			//console.log('company is _+__)__)_)_')
+			//console.dir(company);
+
+			myRouter.prototype.searchResultPreRender(req,_app,function(result){
+
+
+					res.render('searchResult',{locals:{'user':req.user,'searchResult':result}});
+			})
+
+			
+
+	})
 	//   Must Be Finished  :)))  oz Man
 	this.router.post('/reply',function(req,res,nect){
 		
@@ -960,7 +983,27 @@ myRouter.prototype.blogPreRender=function(req,app,callback){
 
 			//callback();
 		}
+myRouter.prototype.searchResultPreRender=function(req,app,callback){
 
+
+	app.set('layout','layouts/all_pages_layout');
+
+
+	var it=req.query.name;
+
+	var searchRegex='(^'+it+'.*)|'+'( '+it+')';
+			console.log(searchRegex);
+			manager.find({$or:[{fullName:new RegExp(searchRegex,'i')},{currentCompany:new RegExp(searchRegex,'i')}]},'managerID fullName possition department currentCompany linkedinURL',{'sort': {'fullName': '-1'}, 'limit': 100},function(err,response){
+				if(err){
+					console.dir(err);
+				}else{
+					console.log('found array');
+				}
+				callback(response);
+			})
+
+
+}
 myRouter.prototype.topRankPreRender=function(req,app,callback){
 			// app.set('layout','layouts/all_pages_layout');
 
@@ -1036,8 +1079,19 @@ myRouter.prototype.aboutUsPreRender=function(req,app,callback){
 myRouter.prototype.blogInnerPreRender=function(req,app,callback){
 	app.set('layout','layouts/all_pages_layout');
 
-	blog.find({},function(err,blogResult){
-			callback(blogResult);
+	blog.findOne({'blogID':req.query.blog},function(err,blogResult){
+			
+			if(blogResult.viewCounter==''){
+				blogResult.viewCounter='0';
+			}else{
+				blogResult.viewCounter=''+(parseInt(blogResult.viewCounter)+1);
+			}
+			blogResult.save(function(err,saved){
+				callback(blogResult);
+			})
+
+
+			
 	})
 
 	

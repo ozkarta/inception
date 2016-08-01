@@ -14,63 +14,66 @@
                     <%for(i=0;i<locals.blogs.length;i++){%>
                       
                     <div class="blog-post col-xs-8">
+                        <div class="blog-time">
+                            <time class="icon">
+                                <em><%-(locals.blogs[i].effDate).substring(0,4)%></em>
+                                
 
-                        <time class="icon">
-                            <em><%-(locals.blogs[i].effDate).substring(0,4)%></em>
-                            
-
-                            <%if((locals.blogs[i].effDate).substring(6,5,7)=='01'){%>
-                                <strong>January</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='02'){%>
-                                <strong>February</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='03'){%>
-                                <strong>March</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='04'){%>
-                                <strong>April</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='05'){%>
-                                <strong>May</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='06'){%>
-                                <strong>June</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='07'){%>
-                                <strong>July</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='08'){%>
-                                <strong>August</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='09'){%>
-                                <strong>September</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='10'){%>
-                                <strong>October</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='11'){%>
-                                <strong>November</strong>
-                            <%}%>
-                            <%if((locals.blogs[i].effDate).substring(5,7)=='12'){%>
-                                <strong>December</strong>
-                            <%}%>
-                            <span><%-(locals.blogs[i].effDate).substring(8,10)%></span>
-                        </time>
-                        <div class="blog-post-title">
+                                <%if((locals.blogs[i].effDate).substring(6,5,7)=='01'){%>
+                                    <strong>January</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='02'){%>
+                                    <strong>February</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='03'){%>
+                                    <strong>March</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='04'){%>
+                                    <strong>April</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='05'){%>
+                                    <strong>May</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='06'){%>
+                                    <strong>June</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='07'){%>
+                                    <strong>July</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='08'){%>
+                                    <strong>August</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='09'){%>
+                                    <strong>September</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='10'){%>
+                                    <strong>October</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='11'){%>
+                                    <strong>November</strong>
+                                <%}%>
+                                <%if((locals.blogs[i].effDate).substring(5,7)=='12'){%>
+                                    <strong>December</strong>
+                                <%}%>
+                                <span><%-(locals.blogs[i].effDate).substring(8,10)%></span>
+                            </time>
+                        </div>
+                       <div class="blog-post-title col-xs-10 col-md-9">
                             <h1><%=locals.blogs[i].blogTitle%></h1>
                         </div>
-                        <div>
+                        <div class="blog-inner-part">
                             <p><%=(locals.blogs[i].blogInnerHTML).substring(0,297)%> ......</p>
                         </div>
-                        <form action="/blogInner" method="GET">
-                            <button class="btn read-more" type="submit">
-                                Read More
-                                <input type="hidden" name="blog" value="<%-locals.blogs[i].blogID%>">
-                                <span class="glyphicon glyphicon-chevron-right">
-                                </span>
-                            </button>
-                        </form>
+                        <div style="width: 100%">
+                            <form action="/blogInner" method="GET">
+                                <button class="btn read-more" type="submit">
+                                    Read More
+                                    <input type="hidden" name="blog" value="<%-locals.blogs[i].blogID%>">
+                                    <span class="glyphicon glyphicon-chevron-right">
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
 
                     </div>
                     <%}%>
