@@ -118,10 +118,10 @@
 			  },
 			  function(token, tokenSecret, profile, done) {
 
-			  	console.dir(profile);
+			  	//console.dir(profile);
 			  	console.log('linkedin  response is ____________________________________________________________________________________________')
-			  	console.dir(profile._json.positions);
-			  	console.dir(profile.emailaddress);
+			  	//console.dir(profile._json.positions);
+			  	//console.dir(profile.emailaddress);
 			  	 process.nextTick(function() {
 							     
 							      // find the user in the database based on their facebook id
@@ -232,7 +232,7 @@ this.passport.use('google',new google_strategy({
   },
   function(request, accessToken, refreshToken, profile, done) {
   	console.log('_________________________GOOGLE_______________________________')
-  	console.dir(profile);
+  	//console.dir(profile);
     // asynchronous verification, for effect...
      process.nextTick(function() {
 							     
@@ -390,7 +390,7 @@ this.passport.use('google',new google_strategy({
 		console.log('index was requested  ');		
 		myRouter.prototype.topRankPreRender(req,_app,function(managerArray){
 				console.log('manager array is ....')
-				console.dir(managerArray);
+				//console.dir(managerArray);
 				var page=1;
 				if(req.query.page!==undefined){
 					page=req.query.page;
@@ -492,7 +492,7 @@ this.passport.use('google',new google_strategy({
 
 	
 
-	this.router.get('/addmanager', function(req, res, next) {
+	this.router.get('/addmanager',isLoggedIn ,function(req, res, next) {
 
 		console.log('add manager   was requested  ');		
 		myRouter.prototype.addManagerPreRender(req,_app,function(){
@@ -505,11 +505,12 @@ this.passport.use('google',new google_strategy({
 	});
 
 	//     For autofill  on   addManager page
-	this.router.post('/findCompany',function(req,res,nect){
+	this.router.post('/findCompany',isLoggedIn,function(req,res,nect){
 		var it=req.body.searchQ;
 		//console.log('company is _+__)__)_)_')
 		//console.dir(company);
-		company.find({name:new RegExp('^'+it,'i')},'name',{'sort': {'name': '-1'}, 'limit': '10'},function(err,response){
+		var searchRegex='(^'+it+'.*)|'+'( '+it+')';
+		company.find({name:new RegExp(searchRegex,'i')},'name',{'sort': {'name': '-1'}, 'limit': 10},function(err,response){
 			if(err){
 				//console.dir(err);
 			}
@@ -523,9 +524,11 @@ this.passport.use('google',new google_strategy({
 		var it=req.body.searchQ;
 		//console.log('company is _+__)__)_)_')
 		//console.dir(company);
-		manager.find({fullName:new RegExp('^'+it,'i')},'managerID fullName possition department currentCompany ',{'sort': {'fullName': '-1'}, 'limit': '10'},function(err,response){
+		var searchRegex='(^'+it+'.*)|'+'( '+it+')';
+		console.log(searchRegex);
+		manager.find({$or:[{fullName:new RegExp(searchRegex,'i')},{currentCompany:new RegExp(searchRegex,'i')}]},'managerID fullName possition department currentCompany ',{'sort': {'fullName': '-1'}, 'limit': 10},function(err,response){
 			if(err){
-				//console.dir(err);
+				console.dir(err);
 			}
 			//console.dir(response);
 			res.send(response);
@@ -534,7 +537,7 @@ this.passport.use('google',new google_strategy({
 	//   Must Be Finished  :)))  oz Man
 	this.router.post('/reply',function(req,res,nect){
 		
-		console.dir(req.body);
+		//console.dir(req.body);
 
 		blog.findOne({'blogID':req.body.blogID},function(err,blogToComment){
 			for(i=0;i<blogToComment.comments.length;i++){
@@ -605,7 +608,7 @@ this.passport.use('google',new google_strategy({
 
 	this.router.post('/comment',function(req,res,nect){
 		
-		console.dir(req.body);
+		//console.dir(req.body);
 
 		blog.findOne({'blogID':req.body.blogID},function(err,blogToComment){
 
@@ -648,7 +651,7 @@ this.passport.use('google',new google_strategy({
 	this.router.post('/managerInseert',isLoggedIn,function(req,res,next){
 
 
-			console.dir(req.body);
+			//console.dir(req.body);
 
 			newManager=new manager();
 			newManager.managerID=guid();
@@ -733,7 +736,7 @@ this.passport.use('google',new google_strategy({
 		//console.dir(req.user);
 		console.log('!!!!IMPORTANT!!!!  changeRate  was requested by POST');
 
-		console.dir(req.body);
+		//console.dir(req.body);
 
 
 		var userID=undefined;
@@ -802,7 +805,7 @@ this.passport.use('google',new google_strategy({
 									}else{
 
 										console.log('updated succesfully ');
-										console.dir(savedManager.rating);
+										//console.dir(savedManager.rating);
 									}
 								})
 						}
@@ -969,7 +972,7 @@ myRouter.prototype.topRankPreRender=function(req,app,callback){
 			// 	}
 			// })
 			console.log('manager is ....');
-			console.dir(myRouter.manager);
+			//console.dir(myRouter.manager);
 
 			app.set('layout','layouts/all_pages_layout');
 			console.log('@@@@@@@@@@@@@')
