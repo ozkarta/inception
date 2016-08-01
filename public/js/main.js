@@ -199,12 +199,17 @@ window.onload = function(e) {
                                         //divViewRepy
                                         divViewRepy.setAttribute('onclick','viewAllReplies(this,"reply'+comment.commentID+'")')
 
-                                        var divReplyCommentButton=document.createElement('div');
-                                        divReplyCommentButton.className='reply-comment';
-                                        divReplyCommentButton.innerHTML='reply';
-                                        divReplyCommentButton.setAttribute('id','reply'+comment.commentID+'-re');
-                                        divReplyCommentButton.setAttribute('onclick','showReply(this,"reply'+comment.commentID+'")')
-
+                                        var divReplyCommentButton=null;
+                                        if(document.getElementById('username')!==null){
+                                         if(document.getElementById('username').value!=='' || document.getElementById('username').value !==undefined || document.getElementById('username').value!=='undefined'){
+                                        
+                                                divReplyCommentButton=document.createElement('div');
+                                                divReplyCommentButton.className='reply-comment';
+                                                divReplyCommentButton.innerHTML='reply';
+                                                divReplyCommentButton.setAttribute('id','reply'+comment.commentID+'-re');
+                                                divReplyCommentButton.setAttribute('onclick','showReply(this,"reply'+comment.commentID+'")')
+                                            }
+                                        }
                                         var divCommentDate=document.createElement('div');
                                         divCommentDate.className='comment-date';
                                         var span=document.createElement('span');
@@ -212,7 +217,10 @@ window.onload = function(e) {
                                         divCommentDate.appendChild(span);
 
                                         divButtons.appendChild(divViewRepy)
-                                        divButtons.appendChild(divReplyCommentButton)
+                                        if(divReplyCommentButton!==null){
+                                            divButtons.appendChild(divReplyCommentButton)
+                                        }
+                                        
                                         divButtons.appendChild(divCommentDate)
                                         div3.appendChild(divButtons)
 
@@ -301,27 +309,34 @@ window.onload = function(e) {
                                    })  
 
                                    //newComment  
+                                   if(document.getElementById('username')!==null){
+                                         if(document.getElementById('username').value!=='' || document.getElementById('username').value !==undefined || document.getElementById('username').value!=='undefined'){
+                                                var writeCommentSection=document.createElement('div');
+                                                writeCommentSection.className='write-comment col-sm-9';
 
-                                        var writeCommentSection=document.createElement('div');
-                                        writeCommentSection.className='write-comment col-sm-9';
+                                                writeCommentSection.id='newComment';
 
-                                        writeCommentSection.id='newComment';
+                                                var inputDiv=document.createElement('div');
+                                                inputDiv.className='input-comment';
 
-                                        var inputDiv=document.createElement('div');
-                                        inputDiv.className='input-comment';
+                                                var textInput=document.createElement('textarea');
 
-                                        var textInput=document.createElement('textarea');
+                                                textInput.setAttribute('rows','1');
+                                                textInput.setAttribute('placeholder','Write a comment');
+                                                textInput.setAttribute('onkeyup','textAreaAdjust(this,event)');
+                                                textInput.setAttribute('onkeypress','return writeComment(this,event)');
+                                                textInput.setAttribute('id','newCommentID');
 
-                                        textInput.setAttribute('rows','1');
-                                        textInput.setAttribute('placeholder','Write a comment');
-                                        textInput.setAttribute('onkeyup','textAreaAdjust(this,event)');
-                                        textInput.setAttribute('onkeypress','return writeComment(this,event)');
-                                        textInput.setAttribute('id','newCommentID');
+                                                inputDiv.appendChild(textInput);
+                                                writeCommentSection.appendChild(inputDiv);
 
-                                        inputDiv.appendChild(textInput);
-                                        writeCommentSection.appendChild(inputDiv);
-
-                                   document.getElementById('commentSectionContainer').appendChild(writeCommentSection);
+                                                document.getElementById('commentSectionContainer').appendChild(writeCommentSection);
+                                            }
+                                   }else{
+                                    //    Tell the user to  sign in 
+                                   }
+                                   
+                                        
                             }
                         }
                         xhr.send(jsonToPost);
