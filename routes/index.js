@@ -1,3 +1,6 @@
+   var mail=require('../models/mailer.js');
+
+
    var dbInit=require('../models/initDataBase.js');
 
    	var dbConfig = require('../models/db.js');
@@ -399,6 +402,41 @@ this.passport.use('google',new google_strategy({
 				if(req.query.optradio!==undefined){
 					listLength=req.query.optradio;
 				}
+
+
+				for(i=0;i<managerArray.length;i++){
+					var recognitionTotal=0;
+					var autonomyTotal	=0;
+					var expectationTotal=0;	
+					var mentorshipTotal	=0;
+					var rewardTotal		=0;
+
+					for(j=0;j<managerArray[i].rating.length;j++){
+						//console.dir()
+						recognitionTotal=recognitionTotal+parseInt(managerArray[i].rating[j].recognition);
+						autonomyTotal=autonomyTotal+parseInt(managerArray[i].rating[j].autonomy);
+						expectationTotal=expectationTotal+parseInt(managerArray[i].rating[j].expectation);
+						mentorshipTotal=mentorshipTotal+parseInt(managerArray[i].rating[j].mentorship);
+						rewardTotal=rewardTotal+parseInt(managerArray[i].rating[j].reward);
+					}
+
+					recognitionTotal=recognitionTotal/managerArray[i].rating.length;
+					autonomyTotal=autonomyTotal/managerArray[i].rating.length;
+					expectationTotal=expectationTotal/managerArray[i].rating.length;
+					mentorshipTotal=mentorshipTotal/managerArray[i].rating.length;
+					rewardTotal=rewardTotal/managerArray[i].rating.length;
+
+					var average=0
+					if(isNaN((recognitionTotal+autonomyTotal+expectationTotal+mentorshipTotal+rewardTotal)/5)){
+						average=0;
+					}else{
+						average=(recognitionTotal+autonomyTotal+expectationTotal+mentorshipTotal+rewardTotal)/5
+					}
+					managerArray[i].average=average;
+					console.log('average');
+					console.dir(managerArray[i].average);
+				}
+				managerArray=sortManagerByAverage(managerArray,'average');
 				res.render('toprank',{locals:{'user':req.user,'managers':managerArray,'page':page,'listLength':listLength}});
 		})
 
@@ -500,7 +538,7 @@ this.passport.use('google',new google_strategy({
 
 		console.log('add manager   was requested  ');		
 		myRouter.prototype.addManagerPreRender(req,_app,function(){
-				console.log('rendering.....');
+				//console.log('rendering.....');
 				res.render('addManager',{locals:{'user':req.user}});
 		})
 
@@ -684,6 +722,26 @@ this.passport.use('google',new google_strategy({
 			newManager.currentCompany=req.body.addManagerAutoComplete_company;
 			newManager.email=req.body.managerEmail;
 			newManager.linkedinURL=req.body.managerLinkedIn;
+
+
+			mail.sendMail('uncoveredboss1@gmail.com','New Manager Alert','CC','New Manager : '+req.body.managerName+'<br>Company : '+req.body.addManagerAutoComplete_company)
+			company.find({'name':req.body.addManagerAutoComplete_company},function(err,findResult){
+				if(err){
+
+				}else{
+					if(findResult.length==0){
+						var newCompany=new company();
+						newCompany.id=guid();
+						newCompany.name=req.body.addManagerAutoComplete_company;
+						newCompany.save(function(err,res){
+							if(!err){
+								mail.sendMail('uncoveredboss1@gmail.com','New Company Alert','CC','New Company : "'+req.body.addManagerAutoComplete_company+'"  was added to the database');
+							}
+							
+						})
+					}
+				}
+			})
 
 
 			newManager.save(function(err,savedManager){
@@ -1018,8 +1076,10 @@ myRouter.prototype.topRankPreRender=function(req,app,callback){
 			//console.dir(myRouter.manager);
 
 			app.set('layout','layouts/all_pages_layout');
-			console.log('@@@@@@@@@@@@@')
-			console.log(req.query.searchQ);
+			//console.log('@@@@@@@@@@@@@')
+			//console.log(req.query.searchQ);
+
+
 
 			if(req.query.searchQ===undefined || req.query.searchQ===''){
 					manager.find({},function(err,managerRes){
@@ -1031,7 +1091,8 @@ myRouter.prototype.topRankPreRender=function(req,app,callback){
 					})
 
 			}else{
-				manager.find({'fullName':req.query.searchQ},function(err,managerRes){
+				var searchRegex='(^'+req.query.searchQ+'.*)|'+'( '+req.query.searchQ+')';
+				manager.find({'fullName':new RegExp(searchRegex,'i')},function(err,managerRes){
 					if(err){
 						callback(undefined)
 					}else{
@@ -1231,6 +1292,14 @@ function getDate(){
     }
     var datetime = currentdate.getFullYear()+'-'+month+'-'+day;
     return datetime;
+}
+
+function sortManagerByAverage(array, key) {
+    return array.sort(function(a, b) {
+        var x = parseInt(a[key]); var y = parseInt(b[key]);
+        console.log(x+' vs '+y)
+        return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+    });
 }
 
 module.exports.myRouter=myRouter;

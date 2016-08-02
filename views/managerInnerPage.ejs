@@ -37,8 +37,29 @@
 
 
             <div class="container">
+                
+
+                <%  console.dir(locals.manager);
+
+                    if(locals.manager.linkedinURL!==undefined){
+                        if(locals.manager.linkedinURL!==''){
+                        %>
+                            <script type="IN/MemberProfile" data-id="<%=locals.manager.linkedinURL%>" data-format="inline"></script>
+                        <%
+                        }else{
+                            %>
+                                <div class="manager-image"></div>
+                            <%
+                        }
+                    }else{
+                         %>
+                            <div class="manager-image"></div>
+                        <%
+                    }
+
+                %>
+                    
                 <section class="manager-inner-details">
-                    <div class="manager-image"></div>
                     <div class="rate-manager">
 
                         <% if(locals.user!==undefined){
