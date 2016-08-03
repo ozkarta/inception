@@ -40,10 +40,21 @@
                         <img class="stick img-thumbnail col-xs-6" src="images/stick.jpg">
                         <div class="social-icons">
                             <ul>
+
+                                <%
+                                    var favoriteImageSRC='images/heart-outline.svg';
+
+                                    for(i=0;i<locals.blog.userLikes.length;i++){
+                                        if(locals.blog.userLikes[i]==userID){
+                                            favoriteImageSRC='images/favorite-heart.svg';
+                                        }
+                                    }
+
+                                %>
                                 <li class="he blog-inner-social">
-                                    <a id="heart">
+                                    <a id="heart" onclick="heartClick()">
                                         <div class="join-line-icon">
-                                            <img src="images/heart-outline.svg">
+                                            <img id="heartImage" src="<%=favoriteImageSRC%>">
                                             <div class="icon-line"></div>
                                         </div>
                                     </a>
@@ -393,8 +404,3 @@ function sortByDateDesc(array, key) {
   %>
 
 
-  <script type="javascript">
-    document.onload = function() {
-      alert('oz');
-    };
-  </script>

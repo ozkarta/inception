@@ -8,5 +8,7 @@ module.exports=mongoose.model('blog',{
 	blogTitle		:String,
 	blogInnerHTML	:String,
 	viewCounter		:String,
-	comments		:[]
+	comments		:[],
+	userLikes		:[]
+
 });

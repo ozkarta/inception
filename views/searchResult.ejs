@@ -13,16 +13,22 @@
                             <div class="thumbnail">
                                 <div class="centr">
                                     <div class="profile-picture">
-                                       <a href="">
-                                        <img class="pull-left" src="https://media.licdn.com/mpr/mpr/shrink_100_100/p/2/000/0ff/0f6/10d64d4.jpg">
-                                        </a>
+                                       
                                         <%
                                             if(locals.searchResult[i].linkedinURL!==''){
                                         %>
-                                                <div class="l-in">
+                                        <script type="IN/MemberProfile" data-id="<%=locals.searchResult[i].linkedinURL%>" data-format="inline"></script>
+                                                <!-- <div class="l-in">
                                                      <a href="<%=locals.searchResult[i].linkedinURL%>">View Linkedin<img src="/images/linkedin.svg"></a>
-                                                </div>
+                                                </div> -->
                                         <%
+                                            }else{
+                                            %>
+                                                <a href="">
+                                                    <img class="pull-left" src="images/logo_gray.png">
+                                                </a>
+
+                                            <%
                                             }
                                         %>
                                     </div>

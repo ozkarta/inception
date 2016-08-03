@@ -123,7 +123,17 @@
 
 			  	//console.dir(profile);
 			  	console.log('linkedin  response is ____________________________________________________________________________________________')
-			  	//console.dir(profile._json.positions);
+
+			  	//console.dir(profile._json);
+
+			  	if(profile._json.positions.values!==undefined){
+			  		for(i=0;i<profile._json.positions.values.length;i++){
+				  		console.dir(profile._json.positions.values[i].company);
+				  		console.log('___________________________________________');
+				  	}
+			  	}
+			  	
+			  	
 			  	//console.dir(profile.emailaddress);
 			  	 process.nextTick(function() {
 							     
@@ -358,7 +368,75 @@ this.passport.use('google',new google_strategy({
 	  
 	});
 
-	
+
+	this.router.post('/likeBlog', function(req, res, next) {
+		console.log('______________________like_unlike_____________________________________')
+		console.dir(req.body);
+		var blogID=req.body.blogID;
+		var like_unlike=req.body.status;
+		var userID='';
+
+		if(req.user.facebook.id!==undefined){
+			userID=req.user.facebook.id;
+		}
+		if(req.user.google.id!==undefined){
+			userID=req.user.google.id;
+		}
+		if(req.user.linkedin.id!==undefined){
+			userID=req.user.linkedin.id;
+		}
+
+		blog.findOne({'blogID':blogID},function(err,blogFound){
+			if(!err){
+				if(blogFound){
+					console.log('shigxoargaq');
+					//if(blogFound.userLikes==undefined){
+						blogFound.userLikes=[];
+						console.log('user ID is +++  '+userID);
+						if(userID!==''){
+							console.log('user id is not empty');
+							var contains=false;
+							for(i=0;i<blogFound.userLikes.length;i++){
+								if(blogFound.userLikes[i]==userID){
+									if(like_unlike=='unlike'){
+										blogFound.userLikes.splice(i,1);
+									}
+									contains=true;
+								}
+							}
+							if(!contains){
+								if(like_unlike=="like"){
+									blogFound.userLikes.push(userID);
+								}	
+							}
+							blogFound.save(function(err,savedBlog){
+								if(!err){
+									console.dir(savedBlog);
+									console.log('succesfullly saved');
+									res.send({'status':'success'});
+								}else{
+									console.dir(err);
+									res.send({'status':'error while saving the record'});
+								}
+							})
+							
+						}else{
+							res.send({'status':'not authenticated'});
+						}
+					//}
+				}else{
+					res.send({'status':'blog was not found, Link  is depricated'});
+					console.dir(err);
+				}
+			}
+		})
+
+
+
+
+
+	  
+	});
 
 
 	this.router.get('/terms', function(req, res, next) {

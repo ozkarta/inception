@@ -55,6 +55,22 @@ window.onload = function(e) {
                 $stickyEl.toggleClass('sticky', $window.scrollTop() > elTop);
             });
             /*BLOG --- Most Read and Recent posts fixed when it reaches top of the page ---- End*/
+
+            
+            // Favorite Heart -----------------------------------------------------------START
+            var $favorite = $('#blog-favorite');
+            $favorite.click(function(e){
+              e.preventDefault();
+              var clicks = $(this).data('clicks');
+              if (clicks) {
+                $favorite.attr("src", "../images/favorite-heart.svg");
+              }
+              else{
+                $favorite.attr("src", "../images/heart-outline.svg");
+              }
+               $(this).data("clicks", !clicks);
+            })
+            // Favorite Heart -----------------------------------------------------------END
         }
     }
 
@@ -106,22 +122,7 @@ window.onload = function(e) {
         //
         // });
 
-        // Heart favorite effect ---  START
-        var $heart= $('#heart');
-        var $image = $('.join-line-icon img').eq(0);
-        $heart.click(function(e){
-          e.preventDefault();
-          var clicks = $(this).data('clicks');
-          if (clicks) {
-            $image.attr("src", "../images/favorite-heart.svg");
-          }
-          else{
-            $image.attr("src", "../images/heart-outline.svg");
-          }
-           $(this).data("clicks", !clicks);
-
-        })
-
+        
         // Heart favorite effect ---  END
 
 
@@ -3578,4 +3579,100 @@ function guid() {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
+}
+
+function heartClick(){
+
+  // Heart favorite effect ---  START
+        //console.dir(document.getElementById('heartImage'));
+        //console.log(document.getElementById('heartImage').attributes.src.nodeValue);
+        
+            if(document.getElementById('userid')!==null){
+                if(document.getElementById('userid').value!==''){
+                    if(document.getElementById('username')!==null){
+                        if(document.getElementById('username').value!==''){
+
+                        }else{
+                            alert('Please Sign In')
+                            return;
+                        }
+                    }else{
+                        alert('Please Sign In')
+                        return;
+                    }
+
+                }else{
+                    alert('Please Sign In')
+                    return
+                }              
+            }else{
+                alert('Please Sign In')
+                return;
+            }
+         
+          if (document.getElementById('heartImage').attributes.src.nodeValue=='images/heart-outline.svg') {
+              document.getElementById('heartImage').src="images/favorite-heart.svg";
+
+
+
+                    //  AJAX   REQUEST TO THE SERVER
+                    //______________________________
+
+                    var jsonToPost = '{"blogID":"'+document.getElementById('blogIDContainer').value+'","status":"like"}'
+                        //alert(jsonToPost);
+
+                    xhr = new XMLHttpRequest();
+                    //var url = document.location.origin+'/find';
+                    var url = 'likeBlog';
+                    //alert(url);
+                    xhr.open("POST", url, true);
+
+                    xhr.setRequestHeader("Content-type", "application/json");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            responseJSON = JSON.parse(xhr.responseText);
+                            console.dir(responseJSON);
+                            var counter = 0;
+                            // responseJSON.forEach(function(item){
+                            //  counter=counter+1;
+
+                            //    //  Apply  insert    in HTML   if needed
+                            // })
+                        }
+                    }
+                    xhr.send(jsonToPost);
+          }
+          else{
+            document.getElementById('heartImage').src='images/heart-outline.svg';
+                    //  AJAX   REQUEST TO THE SERVER
+                    //______________________________
+
+                    var jsonToPost = '{"blogID":"'+document.getElementById('blogIDContainer').value+'","status":"unlike"}'
+                        //alert(jsonToPost);
+
+                    xhr = new XMLHttpRequest();
+                    //var url = document.location.origin+'/find';
+                    var url = 'likeBlog';
+                    //alert(url);
+                    xhr.open("POST", url, true);
+
+                    xhr.setRequestHeader("Content-type", "application/json");
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            responseJSON = JSON.parse(xhr.responseText);
+                            console.dir(responseJSON);
+                            var counter = 0;
+                            // responseJSON.forEach(function(item){
+                            //  counter=counter+1;
+
+                            //    //  Apply  insert    in HTML   if needed
+                            // })
+                        }
+                    }
+                    xhr.send(jsonToPost);
+          }
+           
+
+       
+
 }
